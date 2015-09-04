@@ -30,6 +30,9 @@ if [ "$solr_link" != "" ]; then
   link_opts=${link_opts}' --link '${solr_link}':'${solr_hostname}
 fi
 
+# generate hostname.
+container_hostname="dev.$(basename `pwd`).local"
+
 # check containers that we depend on.
 function check_dependency() {
     dep=$1
@@ -74,13 +77,10 @@ else
   check_drupal_image
 
   cust_config_folder="${mydir}/../php"
-  docker run -d ${link_opts} ${env_vars} -v ${cust_config_folder}:/etc/php5/custom.conf.d --name ${name} -v `pwd`:/var/www ${image}
+  docker run -d ${link_opts} ${env_vars} --add-host ${container_hostname}:127.0.0.1 -v ${cust_config_folder}:/etc/php5/custom.conf.d --name ${name} -v `pwd`:/var/www ${image}
 fi
 
 ip=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' ${name})
-
-# generate hostname.
-container_hostname="dev.$(basename `pwd`).local"
 
 # add host to hostsfile.
 "${mydir}"/d7-add-host.sh ${ip} ${container_hostname}
