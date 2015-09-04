@@ -7,7 +7,7 @@ mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
 # scripts to symlink.
 scripts=(
   'd7-cleanup.sh'
-  'd7-rebuild-docker-image.sh'
+  'd7-build-docker-image.sh'
   'd7-start.sh'
   'd7-stop.sh'
   'd7-stop-all.sh'
