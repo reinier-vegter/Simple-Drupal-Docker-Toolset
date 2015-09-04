@@ -1,0 +1,36 @@
+With this toolset, you can install docker and easily fire up your dev environment.
+ - drupal 7
+ - SSL support
+ - PHP5.4 (based on debian 7)
+ - Apache 2.2
+ - one MySQL container for all projects
+ - one Drupal 7 container + hostname per project
+ - one Solr container for all projects
+
+ Install docker:
+   curl -sSL https://get.docker.com/ | sh
+
+ Add yourself to docker group
+   sudo usermod -aG docker [YOUR USER]
+
+ Then, logout your system and login again
+
+ Run bin/d7-docker-install-scripts.sh to symlink all needed scripts to your bin folder.
+
+ Available commands:
+  - d7-build-docker-image : Build / rebuild the drupal 7 docker image
+  - d7-start              : start drupal 7 container from project folder
+  - d7-stop               : stop container for 'this' project
+  - d7-mysql-start        : start mysql container (triggered by d7-start)
+  - d7-mysql-stop         : stop mysql container
+  - d7-solr4-start        : start solr4 container (triggered by d7-start)
+  - d7-solr4-stop         : stop solr4 container
+  - d7-status             : shows all docker containers (running and stopped)
+  - d7-stop-all           : stop all drupal 7 containers
+  - d7-cleanup            : Cleanup (stop + remove) all drupal 7 containers.
+                          : They are disposable, and usually removed immediately
+                          : when you stop a d7 container.
+
+ To start your project, go to the project folder, and run 'd7-start'
+ Note that settings.php must contain the mysql-host 'mysql-docker.dev',
+ and that solr is reachable at solr4-docker.dev:8983/solr or localhost:8983 from each drupal container.
