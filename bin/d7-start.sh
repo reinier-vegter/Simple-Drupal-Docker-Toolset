@@ -41,6 +41,14 @@ function check_dependency() {
     fi
 }
 
+# check drupal base image
+function check_drupal_image() {
+  if [ "$(docker images | grep $image)" = "" ]; then
+    # build image first.
+    "${mydir}/d7-build-docker-image.sh"
+  fi
+}
+
 # cleanup if this container does exist but stopped.
 container_running=$(docker ps -a --filter "name=$name" --filter "status=running" --format "{{.ID}}")
 if [ "$container_running" != "" ]; then
@@ -63,6 +71,7 @@ else
     check_dependency ${solr_link} ${mydir}/d7-solr4-start.sh
   fi
 
+  check_drupal_image
 
   cust_config_folder="${mydir}/../php"
   docker run -d ${link_opts} ${env_vars} -v ${cust_config_folder}:/etc/php5/custom.conf.d --name ${name} -v `pwd`:/var/www ${image}
