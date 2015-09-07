@@ -31,5 +31,5 @@ if [ $? -ne 0 ]; then
   container_hostname=${ip}
 fi
 
-echo "Access me on ${container_hostname}"":3306"
-echo "MySQL root password: $root_passwd"
+echo " :MYSQL:  Access me on ${container_hostname}"":3306"
+echo " :MYSQL:  MySQL root password: $root_passwd"

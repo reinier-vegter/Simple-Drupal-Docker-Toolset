@@ -34,3 +34,32 @@ With this toolset, you can install docker and easily fire up your dev environmen
  To start your project, go to the project folder, and run 'd7-start'
  Note that settings.php must contain the mysql-host 'mysql-docker.dev',
  and that solr is reachable at solr4-docker.dev:8983/solr or localhost:8983 from each drupal container.
+
+ Custom docker stuff per project:
+   Add file .d7-docker.conf to your project folder.
+
+   !! Be aware that any bash code in this file is actually executed !!
+
+   Example content of file:
+
+   # Add dependency container.
+   # Format: [container name]:[start-script/command]
+   # CUST_DEPENDENCIES=(
+   #   "docker.mysql:${mydir}/d7-mysql-start.sh"
+   #   "docker.solr4:${mydir}/d7-solr4-start.sh"
+   # )
+   #
+   # Add custom link between containers.
+   # Format: [dependency container name]:[hostname in 'this' container, mapped to dependency]
+   # CUST_LINK=(
+   #   "docker.mysql:mysql-docker.dev"
+   #   "docker.solr4:solr4-docker.dev"
+   # )
+   #
+   # Mount extra volumes in container.
+   # Format: [local folder]:[folder in container]
+   # CUST_VOL="/opt/simplesamlphp:/opt/simplesamlphp1"
+   #
+   # Do not check if this is actually Drupal. Usable for 'other' php apps to be ran in
+   # a D7 container.
+   # NO_DRUPAL_CHECK=1

@@ -1,14 +1,17 @@
 #!/bin/bash
 
 env_vars="-e DOCKERUSER=$(whoami)"
-
-mysql_link='docker.mysql'
-mysql_hostname='mysql-docker.dev'
-
-solr_link='docker.solr4'
-solr_hostname='solr4-docker.dev'
+volume_opts=""
+link_opts=""
+NO_DRUPAL_CHECK=0
 
 mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
+
+# Check dependency containers etc.
+. ${mydir}/docker-custom-config.sh ${mydir}/d7-configs.cfg
+
+# check for custom (project) configs, containers , links etc.
+. ${mydir}/docker-custom-config.sh
 
 function noDrupal () {
  echo "This is not a Drupal webroot, can't start."
@@ -16,33 +19,19 @@ function noDrupal () {
  exit 1
 }
 
-[ ! -f index.php ] && noDrupal
-[ ! -f includes/bootstrap.inc ] && noDrupal
+# check if this is drupal.
+if [ $NO_DRUPAL_CHECK -ne 1 ]; then
+  [ ! -f index.php ] && noDrupal
+  [ ! -f includes/bootstrap.inc ] && noDrupal
+else
+  echo "Not checking if this is actually a Drupal webroot!"
+fi
 
 image='finalist-drupal7'
 name='d7'$(pwd | sed 's| |_|g' | sed 's|/|.|g')
 
-link_opts=""
-if [ "$mysql_link" != "" ]; then
-  link_opts=${link_opts}' --link '${mysql_link}':'${mysql_hostname}
-fi
-if [ "$solr_link" != "" ]; then
-  link_opts=${link_opts}' --link '${solr_link}':'${solr_hostname}
-fi
-
 # generate hostname.
 container_hostname="dev.$(basename `pwd`).local"
-
-# check containers that we depend on.
-function check_dependency() {
-    dep=$1
-    script=$2
-    dep_running=$(docker ps -a --filter "name=$dep" --filter "status=running" --format "{{.ID}}")
-    if [ "$dep_running" = "" ]; then
-      echo "Need to start $dep container first"
-      ${script}
-    fi
-}
 
 # check drupal base image
 function check_drupal_image() {
@@ -65,19 +54,13 @@ else
     done
   fi
 
-  # check mysql docker container first.
-  if [ "$mysql_link" != "" ]; then
-    check_dependency ${mysql_link} ${mydir}/d7-mysql-start.sh
-  fi
-  # check mysql docker container first.
-  if [ "$solr_link" != "" ]; then
-    check_dependency ${solr_link} ${mydir}/d7-solr4-start.sh
-  fi
-
+  # Check drupal image.
   check_drupal_image
 
   cust_config_folder="${mydir}/../php"
-  docker run -d ${link_opts} ${env_vars} --add-host ${container_hostname}:127.0.0.1 -v ${cust_config_folder}:/etc/php5/custom.conf.d --name ${name} -v `pwd`:/var/www ${image}
+  CMD="docker run -d ${link_opts} ${env_vars} --add-host ${container_hostname}:127.0.0.1 -v ${cust_config_folder}:/etc/php5/custom.conf.d ${volume_opts} --name ${name} -v `pwd`:/var/www ${image}"
+  echo ${CMD}
+  ${CMD}
 fi
 
 ip=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' ${name})
@@ -88,5 +71,6 @@ if [ $? -ne 0 ]; then
   container_hostname=${ip}
 fi
 
-echo "Access me on http://$container_hostname/ or $container_hostname (for ssh etc)."
-echo "my ssh root passwd: 'root'"
+echo ""
+echo " :D7:  Access me on http://$container_hostname/ or $container_hostname (for ssh etc)."
+echo " :D7:  my ssh root passwd: 'root'"
