@@ -35,7 +35,7 @@ fi
 # read custom docker volume mounts.
 if [ "$CUST_VOL" != "" ]; then
   for volume in ${CUST_VOL[@]}; do
-    volume_opts=${volume_opts}' -v '"$link"
+    volume_opts=${volume_opts}' -v '"$volume"
   done
 fi
 
