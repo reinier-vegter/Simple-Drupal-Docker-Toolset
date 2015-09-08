@@ -27,6 +27,19 @@ RUN apt-get install -y \
 	openssh-server \
 	wget \
 	net-tools
+
+# Varnish installation.
+RUN apt-get install -y apt-transport-https
+RUN curl https://repo.varnish-cache.org/GPG-key.txt | apt-key add -
+RUN echo "deb https://repo.varnish-cache.org/debian/ wheezy varnish-3.0" >> /etc/apt/sources.list.d/varnish-cache.list
+RUN apt-get update
+RUN apt-get install -y varnish
+# Make varnish able to start, since using 'ulimit' is usually forbidden from container.
+RUN sed -i 's/^ulimit/#ulimit/g' /etc/init.d/varnish
+# Put varnish on port 80, instead of 6081
+RUN sed -i 's/DAEMON_OPTS="-a :6081/DAEMON_OPTS="-a :80/' /etc/default/varnish
+
+# Cleanup apt cache.
 RUN apt-get clean
 
 # Install Composer.
@@ -82,6 +95,7 @@ RUN ln -s /root/.composer/vendor/bin/drush /usr/local/bin/drush
 
 ADD ./bootstrap /bootstrap
 RUN cp /bootstrap/solr-proxy.vhost /etc/apache2/sites-enabled/
+RUN cp /bootstrap/varnish-default.vcl /etc/varnish/default.vcl
 RUN chmod +x /bootstrap/*.sh
 WORKDIR /bootstrap
 

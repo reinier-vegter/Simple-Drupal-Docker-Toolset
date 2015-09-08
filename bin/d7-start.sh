@@ -4,6 +4,7 @@ env_vars="-e DOCKERUSER=$(whoami)"
 volume_opts=""
 link_opts=""
 NO_DRUPAL_CHECK=0
+VARNISH_ENABLE=0
 
 mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
 
@@ -25,6 +26,11 @@ if [ $NO_DRUPAL_CHECK -ne 1 ]; then
   [ ! -f includes/bootstrap.inc ] && noDrupal
 else
   echo "Not checking if this is actually a Drupal webroot!"
+fi
+
+# enable varnish ?
+if [ $VARNISH_ENABLE -eq 1 ]; then
+  env_vars=${env_vars}" -e VARNISH_ENABLE=1"
 fi
 
 image='finalist-drupal7'

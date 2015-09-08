@@ -63,3 +63,7 @@ With this toolset, you can install docker and easily fire up your dev environmen
    # Do not check if this is actually Drupal. Usable for 'other' php apps to be ran in
    # a D7 container.
    # NO_DRUPAL_CHECK=1
+   #
+   # Enable Varnish cache engine
+   # VARNISH_ENABLE=1
+   #
