@@ -30,6 +30,8 @@ With this toolset, you can install docker and easily fire up your dev environmen
   - d7-cleanup            : Cleanup (stop + remove) all drupal 7 containers.
                           : They are disposable, and usually removed immediately
                           : when you stop a d7 container.
+  -d7-logs                : Tail all apache logs.
+                          : Starts 'docker logs -f [container]'
 
  To start your project, go to the project folder, and run 'd7-start'
  Note that settings.php must contain the mysql-host 'mysql-docker.dev',

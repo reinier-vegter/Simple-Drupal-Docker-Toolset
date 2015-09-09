@@ -16,6 +16,7 @@ scripts=(
   'd7-status.sh'
   'd7-solr4-start.sh'
   'd7-solr4-stop.sh'
+  'd7-logs.sh'
 )
 
 me=$(whoami)

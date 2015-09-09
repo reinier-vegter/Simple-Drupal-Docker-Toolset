@@ -21,11 +21,6 @@ acl purge {
 # beresp == Back-end response from the web server.
 sub vcl_fetch {
 
-
-  # Default TTL + max-age header.
-  # set beresp.ttl = 600s;
-  # set beresp.http.Cache-Control = "public,max-age=600";
-
   # We need this to cache 404s, 301s, 500s. Otherwise, depending on backend but
   # definitely in Drupal's case these responses are not cacheable by default.
   if (beresp.status == 404 || beresp.status == 301 || beresp.status == 500) {
@@ -42,23 +37,26 @@ sub vcl_fetch {
   if (req.url ~ "(?i)\.(pdf|asc|dat|txt|doc|xls|ppt|tgz|csv|png|gif|jpeg|jpg|ico|swf|svg|css|js|woff|eot|ttf)(\?.*)?$") {
     unset beresp.http.set-cookie;
   }
+
+  # cache images, if Drupal didn't say we can't.
+  if (req.url ~ "(?i)\.(pdf|asc|dat|txt|doc|xls|ppt|tgz|csv|png|gif|jpeg|jpg|ico|swf|svg|css|js|woff|eot|ttf)(\?.*)?$" &&
+    !beresp.http.Cache-Control) {
+      set beresp.ttl = 601s;
+      set beresp.http.Cache-Control = "public,max-age=601";
+  }
+
   # Allow items to be stale if needed.
   set beresp.grace = 10m;
-  #set beresp.http.Cache-Control = "max-age=600,public";
-  #set beresp.ttl = 24h;
-  ## Custom TTLS.
-  ## Rest is controlled from Drupal.
-  # if (  req.url ~ "^/$" ||
-  #   req.url ~ "^/realtime-info/.*$") {
-  #       set beresp.ttl = 30s;
-  #       set beresp.http.Cache-Control = "public,max-age=30";
-  # }
+
+  # cache robots.txt for 1 hour.
   if(req.url == "/robots.txt") {
     # Robots.txt is updated rarely and should be cached for 4 days
     # Purge manually as required
     set beresp.ttl = 3600s;
+    set beresp.ttl = 600s;
   }
 }
+
 # Respond to incoming requests.
 sub vcl_recv {
   ## Allow purging from drupal.

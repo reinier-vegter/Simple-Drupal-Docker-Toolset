@@ -42,9 +42,12 @@ if [ $VARNISH_ENABLE -eq 1 ]; then
   service varnish start
   # Run apache on port 90 instead of 80.
   sed -i 's/ 80$/ 90/g' /etc/apache2/ports.conf
+  sed -i 's/:80$/:90/g' /etc/apache2/ports.conf
   sed -i 's/:80>/:90>/g' /etc/apache2/sites-available/*
 fi
 # ==
 
 service apache2 start
-/usr/sbin/sshd -D
+# /usr/sbin/sshd -D
+/usr/sbin/sshd
+tail -f /var/log/apache2/*log /var/log/syslog
