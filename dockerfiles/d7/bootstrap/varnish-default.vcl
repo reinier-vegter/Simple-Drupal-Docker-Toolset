@@ -53,7 +53,7 @@ sub vcl_fetch {
     # Robots.txt is updated rarely and should be cached for 4 days
     # Purge manually as required
     set beresp.ttl = 3600s;
-    set beresp.http.Cache-Control = "public,max-age=3600s";
+    set beresp.ttl = 600s;
   }
 }
 
