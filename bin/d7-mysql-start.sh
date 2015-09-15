@@ -5,7 +5,7 @@ mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
 root_passwd=root
 
 name='docker.mysql'
-image='mysql:latest'
+image='mysql:5.6.26'
 container_hostname='mysql-docker.dev'
 hostsfile=/etc/hosts
 
