@@ -22,8 +22,6 @@ RUN apt-get install -y \
 	php5-intl \
 	libapache2-mod-php5 \
 	curl \
-	mysql-server \
-	mysql-client \
 	openssh-server \
 	wget \
 	net-tools
@@ -96,8 +94,12 @@ RUN ln -s /root/.composer/vendor/bin/drush /usr/local/bin/drush
 ADD ./bootstrap /bootstrap
 RUN cp /bootstrap/solr-proxy.vhost /etc/apache2/sites-enabled/
 RUN cp /bootstrap/varnish-default.vcl /etc/varnish/default.vcl
-RUN chmod +x /bootstrap/*.sh
+RUN chmod +x /bootstrap/*.sh /bootstrap/sendmail
 WORKDIR /bootstrap
+
+# Add mailsink.
+# Echo's mail into /var/log/mail
+RUN ln -s /bootstrap/sendmail /bin/sendmail
 
 EXPOSE 80 443 22
 CMD ./run-drupal.sh
