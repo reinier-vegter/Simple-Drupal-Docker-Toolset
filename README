@@ -15,7 +15,7 @@ With this toolset, you can install docker and easily fire up your dev environmen
 
  Then, logout your system and login again
 
- Run bin/d7-docker-install-scripts.sh to symlink all needed scripts to your bin folder.
+ Run bin/install.sh to symlink all needed scripts to your bin folder.
 
  Available commands:
   - d7-build-docker-image : Build / rebuild the drupal 7 docker image
@@ -30,10 +30,11 @@ With this toolset, you can install docker and easily fire up your dev environmen
   - d7-cleanup            : Cleanup (stop + remove) all drupal 7 containers.
                           : They are disposable, and usually removed immediately
                           : when you stop a d7 container.
-  -d7-logs [num|all]      : Tail all apache logs.
+  - d7-logs [num|all]     : Tail all apache logs.
                           : Argument sets number of lines to print, before following.
                           :   (Should be integer, or 'all')
                           : Starts 'docker logs --tail=[num] -f [container]'
+  - d7-help               : Show README
 
  To start your project, go to the project folder, and run 'd7-start'
  Note that settings.php must contain the mysql-host 'mysql-docker.dev',
