@@ -6,7 +6,13 @@ With this toolset, you can install docker and easily fire up your dev environmen
  - one MySQL container for all projects
  - one Drupal 7 container + hostname per project
  - one Solr container for all projects
+ - mailsink that collects al emails sent through sendmail (/tmp/d7-docker-mailsink on host)
+ - Varnish out-of-the-box (See 'CUSTOM PROJECT CONFIGURATION')
 
+
+############################################################################################################
+INSTALLATION
+############################################################################################################
  Install docker:
    curl -sSL https://get.docker.com/ | sh
 
@@ -17,7 +23,11 @@ With this toolset, you can install docker and easily fire up your dev environmen
 
  Run bin/install.sh to symlink all needed scripts to your bin folder.
 
- Available commands:
+
+############################################################################################################
+AVAILABLE COMMANDS
+############################################################################################################
+
   - d7-build-docker-image : Build / rebuild the drupal 7 docker image
   - d7-start              : start drupal 7 container from project folder
   - d7-stop               : stop container for 'this' project
@@ -36,10 +46,18 @@ With this toolset, you can install docker and easily fire up your dev environmen
                           : Starts 'docker logs --tail=[num] -f [container]'
   - d7-help               : Show README
 
+
+############################################################################################################
+QUICK START
+############################################################################################################
  To start your project, go to the project folder, and run 'd7-start'
  Note that settings.php must contain the mysql-host 'mysql-docker.dev',
  and that solr is reachable at solr4-docker.dev:8983/solr or localhost:8983 from each drupal container.
 
+
+############################################################################################################
+CUSTOM PROJECT CONFIGURATION
+############################################################################################################
  Custom docker stuff per project:
    Add file .d7-docker.conf to your project folder.
 
