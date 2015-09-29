@@ -47,6 +47,10 @@ if [ $VARNISH_ENABLE -eq 1 ]; then
 fi
 # ==
 
+# =================== Enable SSL proxy =================
+  ln -s /bootstrap/ssl.vhost /etc/apache2/sites-enabled/ssl-proxy
+# ==
+
 service apache2 start
 # /usr/sbin/sshd -D
 /usr/sbin/sshd

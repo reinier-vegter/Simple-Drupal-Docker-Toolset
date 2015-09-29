@@ -65,9 +65,6 @@ RUN a2enmod proxy
 RUN a2enmod proxy_http
 RUN a2enmod ssl
 
-# enable SSL vhost
-RUN a2ensite default-ssl
-
 # Setup SSH.
 RUN echo 'root:root' | chpasswd
 ## RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
