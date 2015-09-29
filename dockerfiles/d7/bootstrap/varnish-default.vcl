@@ -97,7 +97,8 @@ sub vcl_recv {
     req.url ~ "^/info/.*$" ||
     req.url ~ "^/flag/.*$" ||
     req.url ~ "^.*/ajax/.*$" ||
-    req.url ~ "^.*/ahah/.*$") {
+    req.url ~ "^.*/ahah/.*$" ||
+    req.url ~ "^/saml") {
     return (pass);
   }
 
@@ -145,6 +146,11 @@ sub vcl_recv {
     set req.http.Cookie = regsuball(req.http.Cookie, "__utm.=[^;]+(; )?", "");
     # Remove the Quant Capital cookies (added by some plugin, all __qca)
     set req.http.Cookie = regsuball(req.http.Cookie, "__qc.=[^;]+(; )?", "");
+
+    # Remove simplesaml cookie, if no Drupal session cookie is provided.
+    if (req.url !~ "saml" && req.http.Cookie !~ "S{1,2}ESS") {
+     set req.http.Cookie = regsuball(req.http.Cookie, "SimpleSAMLSessionID=[^;]+(; )?", "");
+    }
 
     # If there are no remaining cookies, remove the cookie header. If there
     # aren't any cookie headers, Varnish's default behavior will be to cache
