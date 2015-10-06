@@ -8,9 +8,8 @@ RUN apt-get update
 RUN apt-get install -y \
 	vim \
 	git \
+	wget \
 	apache2 \
-	php-apc \
-	php5-fpm \
 	php5-cli \
 	php5-mysql \
 	php5-gd \
@@ -23,13 +22,12 @@ RUN apt-get install -y \
 	libapache2-mod-php5 \
 	curl \
 	openssh-server \
-	wget \
 	net-tools
 
 # Varnish installation.
 RUN apt-get install -y apt-transport-https
 RUN curl https://repo.varnish-cache.org/GPG-key.txt | apt-key add -
-RUN echo "deb https://repo.varnish-cache.org/debian/ wheezy varnish-3.0" >> /etc/apt/sources.list.d/varnish-cache.list
+RUN echo "deb https://repo.varnish-cache.org/debian/ wheezy varnish-4.0" >> /etc/apt/sources.list.d/varnish-cache.list
 RUN apt-get update
 RUN apt-get install -y varnish
 # Make varnish able to start, since using 'ulimit' is usually forbidden from container.
@@ -39,6 +37,7 @@ RUN sed -i 's/DAEMON_OPTS="-a :6081/DAEMON_OPTS="-a :80/' /etc/default/varnish
 
 # Cleanup apt cache.
 RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
 
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php
@@ -88,16 +87,4 @@ RUN composer global update
 # Unfortunately, adding the composer vendor dir to the PATH doesn't seem to work. So:
 RUN ln -s /root/.composer/vendor/bin/drush /usr/local/bin/drush
 
-ADD ./bootstrap /bootstrap
-RUN cp /bootstrap/solr-proxy.vhost /etc/apache2/sites-enabled/
-RUN cp /bootstrap/varnish-default.vcl /etc/varnish/default.vcl
-RUN chmod +x /bootstrap/*.sh /bootstrap/sendmail
-WORKDIR /bootstrap
-
-# Add mailsink.
-# Echo's mail into /var/log/mail
-RUN ln -s /bootstrap/sendmail /bin/sendmail
-
 EXPOSE 80 443 22
-CMD ./run-drupal.sh
-# CMD /usr/sbin/sshd -D

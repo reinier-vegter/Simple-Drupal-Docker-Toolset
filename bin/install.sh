@@ -48,3 +48,9 @@ done
 #cp "${mydir}/../dockerfiles/d7/Dockerfile" /etc/d7-docker/Dockerfile
 
 cd "${oldpwd}"
+
+# Build docker images.
+if [ "$(docker images | grep $image)" = "" ]; then
+  # build image first.
+  "${mydir}/d7-build-docker-image.sh"
+fi

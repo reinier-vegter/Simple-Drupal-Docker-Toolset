@@ -5,6 +5,7 @@ volume_opts=""
 link_opts=""
 NO_DRUPAL_CHECK=0
 VARNISH_ENABLE=0
+PHP_VERSION=""
 
 mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
 
@@ -20,6 +21,18 @@ function noDrupal () {
  exit 1
 }
 
+# Set image w.r.t. php version.
+case "$PHP_VERSION" in
+  5.4)
+   image='fin-d7-54'
+   ;;
+  5.6)
+    image='fin-d7-56'
+    ;;
+  *)
+    image='fin-d7-54'
+esac
+
 # check if this is drupal.
 if [ $NO_DRUPAL_CHECK -ne 1 ]; then
   [ ! -f index.php ] && noDrupal
@@ -33,7 +46,6 @@ if [ $VARNISH_ENABLE -eq 1 ]; then
   env_vars=${env_vars}" -e VARNISH_ENABLE=1"
 fi
 
-image='finalist-drupal7'
 name='d7'$(pwd | sed 's| |_|g' | sed 's|/|.|g')
 
 # generate hostname.
@@ -64,7 +76,8 @@ else
   check_drupal_image
 
   cust_config_folder="${mydir}/../php"
-  CMD="docker run -d ${link_opts} ${env_vars} --add-host ${container_hostname}:127.0.0.1 -v ${cust_config_folder}:/etc/php5/custom.conf.d ${volume_opts} --name ${name} -v `pwd`:/var/www ${image}"
+  run="/bin/bash /bootstrap/run-drupal.sh"
+  CMD="docker run -d ${link_opts} ${env_vars} --add-host ${container_hostname}:127.0.0.1 -v ${cust_config_folder}:/etc/php5/custom.conf.d ${volume_opts} --name ${name} -v `pwd`:/var/www ${image} ${run}"
   echo ${CMD}
   ${CMD}
 fi

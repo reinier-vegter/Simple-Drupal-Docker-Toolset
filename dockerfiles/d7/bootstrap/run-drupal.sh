@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Prepare stuff.
+cd /bootstrap
+chmod +x /bootstrap/*.sh /bootstrap/sendmail
+cp /bootstrap/solr-proxy.vhost /etc/apache2/sites-enabled/
+cp /bootstrap/varnish-default.vcl /etc/varnish/default.vcl
+
+# Add mailsink.
+# Echo's mail into /var/log/mail
+ln -s /bootstrap/sendmail /bin/sendmail
+
 # ===================== Give host a hostname ============
 SED="$(which sed)"
 NETSTAT="$(which netstat)"
@@ -33,7 +43,8 @@ fi
 
 # =================== Use custom php config ============
 if [ -d /etc/php5/custom.conf.d ]; then
-  ln -s /etc/php5/custom.conf.d/custom-config.ini /etc/php5/conf.d/
+  ln -s /etc/php5/custom.conf.d/custom-config.ini /etc/php5/cli/conf.d/
+  ln -s /etc/php5/custom.conf.d/custom-config.ini /etc/php5/apache2/conf.d/
 fi
 # ==
 
