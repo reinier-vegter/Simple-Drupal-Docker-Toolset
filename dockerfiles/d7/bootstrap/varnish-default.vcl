@@ -35,12 +35,12 @@ acl purge {
   "::1";
 }
 
-acl editors {
+#acl editors {
   # ACL to honor the "Cache-Control: no-cache" header to force a refresh but only from selected IPs
   # "localhost";
   # "127.0.0.1";
   # "::1";
-}
+#}
 
 sub vcl_init {
   # Called when VCL is loaded, before any requests pass through it.
@@ -73,8 +73,7 @@ sub vcl_recv {
       return (synth(405, "This IP is not allowed to send PURGE requests."));
     }
     # If you got this stage (and didn't error out above), purge the cached result
-    ban("req.http.host == " + req.http.host +
-        " && req.url == " + req.url);
+    ban("req.url == " + req.url);
 
     # Throw a synthetic page so the
     # request won't go to the backend.
@@ -147,7 +146,7 @@ sub vcl_recv {
   set req.http.Cookie = regsuball(req.http.Cookie, "cookie_accepted=[^;]+(; )?", "");
 
   # Remove SimpleSamlPHP cookie, if no Drupal session cookie is present.
-  if (req.http.Cookie !~ "S{1,2}ESS[a-z0-9]+=") {
+  if (req.http.Cookie !~ "S{1,2}ESS[a-z0-9]+=" && req.url !~ "^/saml") {
     set req.http.Cookie = regsuball(req.http.Cookie, "SimpleSAML[^;]+(; )?", "");
   }
 
@@ -163,21 +162,21 @@ sub vcl_recv {
   # set req.http.Cookie = regsuball(req.http.Cookie, "cookie_accepted=[^;]+(; )?", "");
 
   #if (req.http.Cache-Control ~ "(?i)no-cache") {
-  if (req.http.Cache-Control ~ "(?i)no-cache" && client.ip ~ editors) { # create the acl editors if you want to restrict the Ctrl-F5
+  # if (req.http.Cache-Control ~ "(?i)no-cache" && client.ip ~ editors) { # create the acl editors if you want to restrict the Ctrl-F5
   # http://varnish.projects.linpro.no/wiki/VCLExampleEnableForceRefresh
   # Ignore requests via proxy caches and badly behaved crawlers
   # like msnbot that send no-cache with every request.
-    if (! (req.http.Via || req.http.User-Agent ~ "(?i)bot" || req.http.X-Purge)) {
-      #set req.hash_always_miss = true; # Doesn't seems to refresh the object in the cache
-      # return(purge); # Couple this with restart in vcl_purge and X-Purge header to avoid loops
-      ban("req.http.host == " + req.http.host +
-          " && req.url == " + req.url);
+  #  if (! (req.http.Via || req.http.User-Agent ~ "(?i)bot" || req.http.X-Purge)) {
+  #    #set req.hash_always_miss = true; # Doesn't seems to refresh the object in the cache
+  #    # return(purge); # Couple this with restart in vcl_purge and X-Purge header to avoid loops
+  #    ban("req.http.host == " + req.http.host +
+  #        " && req.url == " + req.url);
 
-      # Throw a synthetic page so the
-      # request won't go to the backend.
-      return(synth(200, "Ban added"));
-    }
-  }
+  #    # Throw a synthetic page so the
+  #    # request won't go to the backend.
+  #    return(synth(200, "Ban added"));
+  #  }
+  #}
 
   # Large static files are delivered directly to the end-user without
   # waiting for Varnish to fully read the file first.
@@ -346,10 +345,8 @@ sub vcl_backend_response {
   }
 
   # Set 2min cache if unset for static files
-  if (beresp.ttl <= 0s || beresp.http.Set-Cookie || beresp.http.Vary == "*") {
-    set beresp.ttl = 120s; # Important, you shouldn't rely on this, SET YOUR HEADERS in the backend
-    set beresp.uncacheable = true;
-    return (deliver);
+  if (beresp.ttl > 0s) {
+    unset beresp.http.Set-Cookie;
   }
 
   # Allow stale content, in case the backend goes down.
