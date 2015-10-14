@@ -88,6 +88,11 @@ CUSTOM PROJECT CONFIGURATION
    # Format: [local folder]:[folder in container]
    # CUST_VOL="/opt/simplesamlphp:/opt/simplesamlphp1"
    #
+   # Give container extra hostnames.
+   # CUST_HOSTNAMES=(
+   #   "dev.my-favorite-hostname.com"
+   # )
+   #
    # Do not check if this is actually Drupal. Usable for 'other' php apps to be ran in
    # a D7 container.
    # NO_DRUPAL_CHECK=1

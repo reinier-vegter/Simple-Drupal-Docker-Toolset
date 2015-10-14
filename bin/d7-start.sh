@@ -3,6 +3,8 @@
 env_vars="-e DOCKERUSER=$(whoami)"
 volume_opts=""
 link_opts=""
+hostname_opts=""
+custom_hostnames=""
 NO_DRUPAL_CHECK=0
 VARNISH_ENABLE=0
 PHP_VERSION=""
@@ -77,7 +79,7 @@ else
 
   cust_config_folder="${mydir}/../php"
   run="/bin/bash /bootstrap/run-drupal.sh"
-  CMD="docker run -d ${link_opts} ${env_vars} --add-host ${container_hostname}:127.0.0.1 -v ${cust_config_folder}:/etc/php5/custom.conf.d ${volume_opts} --name ${name} -v `pwd`:/var/www ${image} ${run}"
+  CMD="docker run -d ${link_opts} ${hostname_opts} ${env_vars} --add-host ${container_hostname}:127.0.0.1 -v ${cust_config_folder}:/etc/php5/custom.conf.d ${volume_opts} --name ${name} -v `pwd`:/var/www ${image} ${run}"
   echo ${CMD}
   ${CMD}
 fi
@@ -88,6 +90,11 @@ ip=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' ${name})
 "${mydir}"/d7-add-host.sh ${ip} ${container_hostname}
 if [ $? -ne 0 ]; then
   container_hostname=${ip}
+else
+  # Add custom hostnames to hostsfile.
+  for hostname in ${custom_hostnames[@]}; do
+    "${mydir}"/d7-add-host.sh ${ip} ${hostname}
+  done
 fi
 
 echo ""

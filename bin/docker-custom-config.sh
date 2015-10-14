@@ -18,6 +18,7 @@ mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
 CUST_LINK=""
 CUST_VOL=""
 CUST_DEPENDENCIES=""
+CUST_HOSTNAMES=""
 
 if [ "$1" != "" ] && [ -f "$1" ]; then
   source "$1"
@@ -36,6 +37,14 @@ fi
 if [ "$CUST_VOL" != "" ]; then
   for volume in ${CUST_VOL[@]}; do
     volume_opts=${volume_opts}' -v '"$volume"
+  done
+fi
+
+# read custom container hostnames.
+if [ "$CUST_HOSTNAMES" != "" ]; then
+  for hostname in ${CUST_HOSTNAMES[@]}; do
+    hostname_opts=${hostname_opts}' -h '"$hostname"
+    custom_hostnames=${custom_hostnames}" $hostname"
   done
 fi
 
