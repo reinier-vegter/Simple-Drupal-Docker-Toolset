@@ -7,6 +7,7 @@ hostname_opts=""
 custom_hostnames=""
 NO_DRUPAL_CHECK=0
 VARNISH_ENABLE=0
+MEMCACHED_ENABLE=0
 PHP_VERSION=""
 
 mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
@@ -46,6 +47,10 @@ fi
 # enable varnish ?
 if [ $VARNISH_ENABLE -eq 1 ]; then
   env_vars=${env_vars}" -e VARNISH_ENABLE=1"
+fi
+# enable memcached ?
+if [ $MEMCACHED_ENABLE -eq 1 ]; then
+  env_vars=${env_vars}" -e MEMCACHED_ENABLE=1"
 fi
 
 name='d7'$(pwd | sed 's| |_|g' | sed 's|/|.|g')

@@ -58,6 +58,12 @@ if [ $VARNISH_ENABLE -eq 1 ]; then
 fi
 # ==
 
+# ================== Enable memcache D ? ===============
+if [ $MEMCACHED_ENABLE -eq 1 ]; then
+  service memcached start
+fi
+# ==
+
 # =================== Enable SSL proxy =================
   ln -s /bootstrap/ssl.vhost /etc/apache2/sites-enabled/ssl-proxy
 # ==

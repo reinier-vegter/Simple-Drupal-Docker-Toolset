@@ -22,7 +22,15 @@ RUN apt-get install -y \
 	libapache2-mod-php5 \
 	curl \
 	openssh-server \
-	net-tools
+	net-tools \
+	memcached \
+	php5-memcache \
+	php5-dev
+
+# install xhprof
+RUN pecl config-set preferred_state beta
+RUN pecl install xhprof
+RUN apt-get purge -y php5-dev
 
 # Varnish installation.
 RUN apt-get install -y apt-transport-https
@@ -37,6 +45,7 @@ RUN sed -i 's/DAEMON_OPTS="-a :6081/DAEMON_OPTS="-a :80/' /etc/default/varnish
 
 # Cleanup apt cache.
 RUN apt-get clean
+# RUN apt-get autoremove
 RUN rm -rf /var/lib/apt/lists/*
 
 # Install Composer.
@@ -80,6 +89,9 @@ RUN mkdir /var/run/sshd
 ## RUN echo -e '[program:mysql]\ncommand=/usr/bin/pidproxy /var/run/mysqld/mysqld.pid /usr/sbin/mysqld\nautorestart=true\n\n' >> /etc/supervisor/supervisord.conf
 ## RUN echo -e '[program:sshd]\ncommand=/usr/sbin/sshd -D\n\n' >> /etc/supervisor/supervisord.conf
 ## RUN echo -e '[program:blackfire]\ncommand=/usr/local/bin/launch-blackfire\n\n' >> /etc/supervisor/supervisord.conf
+
+# Disable memcached by default.
+RUN update-rc.d memcached disable
 
 # Install Drush 7.
 RUN composer global require drush/drush:7.*
