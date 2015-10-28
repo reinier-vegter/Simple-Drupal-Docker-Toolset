@@ -90,6 +90,9 @@ RUN mkdir /var/run/sshd
 ## RUN echo -e '[program:sshd]\ncommand=/usr/sbin/sshd -D\n\n' >> /etc/supervisor/supervisord.conf
 ## RUN echo -e '[program:blackfire]\ncommand=/usr/local/bin/launch-blackfire\n\n' >> /etc/supervisor/supervisord.conf
 
+
+# Let memcached listen on any IP, so it's connectable from outside the container.
+RUN sed -i 's/-l 127.0.0.1/-l 0.0.0.0/' /etc/memcached.conf
 # Disable memcached by default.
 RUN update-rc.d memcached disable
 
