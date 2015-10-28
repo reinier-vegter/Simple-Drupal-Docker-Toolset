@@ -99,4 +99,4 @@ RUN composer global update
 # Unfortunately, adding the composer vendor dir to the PATH doesn't seem to work. So:
 RUN ln -s /root/.composer/vendor/bin/drush /usr/local/bin/drush
 
-EXPOSE 80 443 22
+EXPOSE 80 443 22 11211
