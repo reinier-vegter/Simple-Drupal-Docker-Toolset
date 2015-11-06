@@ -26,7 +26,9 @@ else
     if [ "$D7_VBOX_IP" != "" ]; then
       exposed_port_opts="-p 3306:3306"
     fi
-    docker run --name "$name" -v ${cust_config_folder}:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=$root_passwd ${exposed_port_opts} -d "$image"
+    run="docker run --name $name -v ${cust_config_folder}:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=$root_passwd ${exposed_port_opts} -d $image"
+    echo ${run}
+    ${run}
   fi
 fi
 
