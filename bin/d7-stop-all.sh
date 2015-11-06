@@ -8,7 +8,7 @@ script=$(readlink -n $0 || echo "$0")
 mydir=$(cd `dirname "$script"` && pwd -P)
 . ${mydir}/common.sh
 
-for container in $(docker ps -a --filter "name=dev-" --format "{{.ID}}"); do
+for container in $(docker ps -a --filter "name=d7." --format "{{.ID}}"); do
   docker stop -t 1 "$container"
   docker rm "$container"
 done

@@ -30,7 +30,7 @@ function noDrupal () {
 # Set image w.r.t. php version.
 case "$PHP_VERSION" in
   5.4)
-   image='fin-d7-54'
+    image='fin-d7-54'
    ;;
   5.6)
     image='fin-d7-56'
@@ -56,8 +56,16 @@ if [ $MEMCACHED_ENABLE -eq 1 ]; then
   env_vars=${env_vars}" -e MEMCACHED_ENABLE=1"
 fi
 
-# generate hostname.
+# Generate hostname.
 container_hostname="dev.$(basename `pwd`).local"
+
+# Tell proxy container about this host.
+env_vars=${env_vars}" -e VIRTUAL_HOST="${container_hostname}
+
+# Add custom hostnames as environmental variables for proxy.
+for hostname in ${custom_hostnames[@]}; do
+  env_vars=${env_vars}" -e VIRTUAL_HOST="${hostname}
+done
 
 # check drupal base image
 function check_drupal_image() {
