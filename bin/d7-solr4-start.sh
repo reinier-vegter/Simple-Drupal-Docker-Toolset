@@ -1,6 +1,8 @@
 #!/bin/bash
 
-mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
+script=$(readlink -n $0 || echo "$0")
+mydir=$(cd `dirname "$script"` && pwd -P)
+. ${mydir}/common.sh
 
 command='-Xmx1024m -DSTOP.PORT=8079 -DSTOP.KEY=stopkey -jar start.jar'
 name='docker.solr4'
@@ -21,7 +23,7 @@ else
   fi
 fi
 
-ip=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' ${name})
+ip=$(publicIp $name)
 "${mydir}"/d7-add-host.sh ${ip} ${container_hostname}
 if [ $? -ne 0 ]; then
   container_hostname=${ip}

@@ -1,8 +1,6 @@
 #!/bin/bash
 
 hostsfile=/etc/hosts
-
-mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
 ip=$1
 hostname=$2
 
@@ -17,8 +15,15 @@ else
   echo "============================================================================"
   echo "I cannot write your hostsfile, so cannot provide you with a nice hostname."
   echo "Do"
-  echo "    chown root:$(whoami) /etc/hosts"
-  echo "    chmod 770 /etc/hosts"
+
+  if [ $OSX -eq 1 ]; then
+    echo "    sudo dseditgroup -o edit -a $(whoami) -t user wheel"
+    echo "    sudo chmod 664 /etc/hosts"
+  else
+    echo "    chown root:$(whoami) /etc/hosts"
+    echo "    chmod 664 /etc/hosts"
+  fi
+
   echo " in order to fix this..."
   echo ""
   exit 1

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+script=$(readlink -n $0 || echo "$0")
+mydir=$(cd `dirname "$script"` && pwd -P)
+
+. ${mydir}/common.sh
+
 env_vars="-e DOCKERUSER=$(whoami)"
 volume_opts=""
 link_opts=""
@@ -9,8 +14,6 @@ NO_DRUPAL_CHECK=0
 VARNISH_ENABLE=0
 MEMCACHED_ENABLE=0
 PHP_VERSION=""
-
-mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
 
 # Check dependency containers etc.
 . ${mydir}/docker-custom-config.sh ${mydir}/d7-configs.cfg
@@ -53,8 +56,6 @@ if [ $MEMCACHED_ENABLE -eq 1 ]; then
   env_vars=${env_vars}" -e MEMCACHED_ENABLE=1"
 fi
 
-name='d7'$(pwd | sed 's| |_|g' | sed 's|/|.|g')
-
 # generate hostname.
 container_hostname="dev.$(basename `pwd`).local"
 
@@ -67,12 +68,12 @@ function check_drupal_image() {
 }
 
 # cleanup if this container does exist but stopped.
-container_running=$(docker ps -a --filter "name=$name" --filter "status=running" --format "{{.ID}}")
+container_running=$(docker ps -a --filter "name=$d7_container_name" --filter "status=running" --format "{{.ID}}")
 if [ "$container_running" != "" ]; then
   echo "Container already running"
 else
   # cleanup if this container does exist but stopped.
-  container_exit=$(docker ps -a --filter "name=$name" --filter "status!=running" --format "{{.ID}}")
+  container_exit=$(docker ps -a --filter "name=$d7_container_name" --filter "status!=running" --format "{{.ID}}")
   if [ "$container_exit" != "" ]; then
     for cont in ${container_exit[@]}; do
       docker rm ${cont}
@@ -84,13 +85,12 @@ else
 
   cust_config_folder="${mydir}/../php"
   run="/bin/bash /bootstrap/run-drupal.sh"
-  CMD="docker run -d ${link_opts} ${hostname_opts} ${env_vars} --add-host ${container_hostname}:127.0.0.1 -v ${cust_config_folder}:/etc/php5/custom.conf.d ${volume_opts} --name ${name} -v `pwd`:/var/www ${image} ${run}"
+  CMD="docker run -d ${link_opts} ${hostname_opts} ${env_vars} --add-host ${container_hostname}:127.0.0.1 -v ${cust_config_folder}:/etc/php5/custom.conf.d ${volume_opts} --name ${d7_container_name} -v `pwd`:/var/www ${image} ${run}"
   echo ${CMD}
   ${CMD}
 fi
 
-ip=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' ${name})
-
+ip=$(publicIp $d7_container_name)
 # add host to hostsfile.
 "${mydir}"/d7-add-host.sh ${ip} ${container_hostname}
 if [ $? -ne 0 ]; then

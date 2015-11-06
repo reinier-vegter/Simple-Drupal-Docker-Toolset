@@ -1,13 +1,13 @@
 #!/bin/bash
 
-mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
+script=$(readlink -n $0 || echo "$0")
+mydir=$(cd `dirname "$script"` && pwd -P)
+. ${mydir}/common.sh
 
 root_passwd=root
-
 name='docker.mysql'
 image='mysql:5.6.26'
 container_hostname='mysql-docker.dev'
-hostsfile=/etc/hosts
 
 # cleanup if this container does exist but stopped.
 container_running=$(docker ps -a --filter "name=$name" --filter "status=running" --format "{{.ID}}")
@@ -23,7 +23,7 @@ else
   fi
 fi
 
-ip=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' ${name})
+ip=$(publicIp $name)
 "${mydir}"/d7-add-host.sh ${ip} ${container_hostname}
 if [ $? -ne 0 ]; then
   container_hostname=${ip}

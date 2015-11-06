@@ -2,7 +2,10 @@
 
 
 binary_path='/bin'
-mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
+script=$(readlink -n $0 || echo "$0")
+mydir=$(cd `dirname "$script"` && pwd -P)
+
+. ${mydir}/common.sh
 
 # scripts to symlink.
 scripts=(
@@ -18,6 +21,8 @@ scripts=(
   'd7-solr4-stop.sh'
   'd7-logs.sh'
   'd7-help.sh'
+  'd7-proxy-start.sh'
+  'd7-proxy-stop.sh'
 )
 
 me=$(whoami)
@@ -41,16 +46,4 @@ if [ -f "${mydir}/$file" ]; then
    echo " -> ${file%.*}"
  fi
 done
-
-## copy dockerfile in /etc folder, so we can rebuild it afterwards.
-#[ ! -d /etc/d7-docker ] && mkdir /etc/d7-docker
-#[ -f /etc/d7-docker/Dockerfile ] && rm /etc/d7-docker/Dockerfile
-#cp "${mydir}/../dockerfiles/d7/Dockerfile" /etc/d7-docker/Dockerfile
-
 cd "${oldpwd}"
-
-# Build docker images.
-if [ "$(docker images | grep $image)" = "" ]; then
-  # build image first.
-  "${mydir}/d7-build-docker-image.sh"
-fi

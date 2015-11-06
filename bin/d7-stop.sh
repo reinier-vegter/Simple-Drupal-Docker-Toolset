@@ -1,6 +1,9 @@
 #!/bin/bash
 
-name='d7'$(pwd | sed 's| |_|g' | sed 's|/|.|g')
-docker stop -t 1 ${name}
-docker rm ${name}
-echo "Container '$name' stopped and removed".
+script=$(readlink -n $0 || echo "$0")
+mydir=$(cd `dirname "$script"` && pwd -P)
+. ${mydir}/common.sh
+
+docker stop -t 1 ${d7_container_name}
+docker rm ${d7_container_name}
+echo "Container '$d7_container_name' stopped and removed".

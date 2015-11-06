@@ -1,6 +1,8 @@
 #!/bin/bash
 
-mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
+script=$(readlink -n $0 || echo "$0")
+mydir=$(cd `dirname "$script"` && pwd -P)
+. ${mydir}/common.sh
 
 # PHP 54
 dockerfile_folder="${mydir}/../dockerfiles/d7/php54"
