@@ -1,8 +1,6 @@
 #!/bin/bash
 
 hostsfile=/etc/hosts
-
-mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
 ip=$1
 hostname=$2
 

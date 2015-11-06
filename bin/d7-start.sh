@@ -1,12 +1,15 @@
 #!/bin/bash
 
+script=$(readlink -n $0 || echo "$0")
+mydir=$(cd `dirname "$script"` && pwd -P)
+
+. ${mydir}/common.sh
+
 env_vars="-e DOCKERUSER=$(whoami)"
 volume_opts=""
 link_opts=""
 NO_DRUPAL_CHECK=0
 VARNISH_ENABLE=0
-
-mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
 
 # Check dependency containers etc.
 . ${mydir}/docker-custom-config.sh ${mydir}/d7-configs.cfg
@@ -34,10 +37,13 @@ if [ $VARNISH_ENABLE -eq 1 ]; then
 fi
 
 image='finalist-drupal7'
-name='d7'$(pwd | sed 's| |_|g' | sed 's|/|.|g')
 
 # generate hostname.
-container_hostname="dev.$(basename `pwd`).local"
+container_hostname="dev-$(basename `pwd`)-local"
+name=$container_hostname
+
+# Tell proxy container about this host.
+env_vars=${env_vars}" -e VIRTUAL_HOST="${container_hostname}
 
 # check drupal base image
 function check_drupal_image() {
@@ -69,7 +75,12 @@ else
   ${CMD}
 fi
 
-ip=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' ${name})
+# Vbox or native ip ?
+if [ "$D7_VBOX_IP" != "" ]; then
+  ip=$D7_VBOX_IP
+else
+  ip=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' ${name})
+fi
 
 # add host to hostsfile.
 "${mydir}"/d7-add-host.sh ${ip} ${container_hostname}

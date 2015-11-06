@@ -1,9 +1,10 @@
 #!/bin/bash
 
-mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
+script=$(readlink -n $0 || echo "$0")
+mydir=$(cd `dirname "$script"` && pwd -P)
+. ${mydir}/common.sh
 
 root_passwd=root
-
 name='docker.mysql'
 image='mysql:5.6.26'
 container_hostname='mysql-docker.dev'

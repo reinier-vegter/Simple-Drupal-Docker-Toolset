@@ -18,16 +18,27 @@ With this toolset, you can install docker and easily fire up your dev environmen
 ############################################################################################################
 INSTALLATION
 ############################################################################################################
- Install docker:
+GNU/Linux distro:
+ - Install docker:
    curl -sSL https://get.docker.com/ | sh
-
- Add yourself to docker group
+ - Add yourself to docker group
    sudo usermod -aG docker [YOUR USER]
+ - Then, logout your system and login again
+ - Run bin/install.sh to symlink all needed scripts to your bin folder.
+ - Give write access to yourself on hosts file
+   sudo chown root:$(whoami) /etc/hosts
+   sudo chmod 664 /etc/hosts
 
- Then, logout your system and login again
+OSX
+From: https://docs.docker.com/installation/mac/
+ - Install toolbox from https://www.docker.com/toolbox
+ - Open Docker Quickstart Terminal
+ - Install shizzle
 
- Run bin/install.sh to symlink all needed scripts to your bin folder.
-
+- Add your user to 'wheel' group (awesome people):
+  sudo dseditgroup -o edit -a $(whoami) -t user wheel
+- Give wheel-group write access to hosts file:
+  sudo chmod 664 /etc/hosts
 
 ############################################################################################################
 AVAILABLE COMMANDS

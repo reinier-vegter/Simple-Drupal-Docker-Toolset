@@ -2,7 +2,10 @@
 
 
 binary_path='/bin'
-mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
+script=$(readlink -n $0 || echo "$0")
+mydir=$(cd `dirname "$script"` && pwd -P)
+
+. ${mydir}/common.sh
 
 # scripts to symlink.
 scripts=(
@@ -18,6 +21,8 @@ scripts=(
   'd7-solr4-stop.sh'
   'd7-logs.sh'
   'd7-help.sh'
+  'd7-proxy-start.sh'
+  'd7-proxy-stop.sh'
 )
 
 me=$(whoami)
@@ -34,8 +39,10 @@ oldpwd=$(pwd)
 # symlink to /bin folder.
 cd ${mydir}
 for file in ${scripts[@]}; do
+  echo " -> $mydir / $file"
 if [ -f "${mydir}/$file" ]; then
    link_name="${binary_path}/${file%.*}"
+   echo "  > $link_name"
    [ -f "${link_name}" ] && rm "${link_name}"
    ln -s "${mydir}/$file" "${link_name}"
    echo " -> ${file%.*}"

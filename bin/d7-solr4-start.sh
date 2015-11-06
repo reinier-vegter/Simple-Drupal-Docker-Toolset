@@ -1,6 +1,8 @@
 #!/bin/bash
 
-mydir=$(cd `dirname $(realpath "${BASH_SOURCE[0]}")` && pwd)
+script=$(readlink -n $0 || echo "$0")
+mydir=$(cd `dirname "$script"` && pwd -P)
+. ${mydir}/common.sh
 
 command='-Xmx1024m -DSTOP.PORT=8079 -DSTOP.KEY=stopkey -jar start.jar'
 name='docker.solr4'
