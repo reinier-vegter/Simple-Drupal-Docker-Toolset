@@ -3,7 +3,7 @@
 DOCKERVM=default
 if [[ "$(uname -a)" == *"Darwin"* ]]; then
   # OH NO, USING DORA LAPTOP!!
-  OSX=1
+  export OSX=1
   env=$(docker-machine env $DOCKERVM)
   if [ $? -ne 0 ]; then
     # docker VM not running

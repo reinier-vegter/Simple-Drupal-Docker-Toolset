@@ -18,8 +18,9 @@ mydir=$(cd `dirname "$script"` && pwd -P)
 scriptbase=$mydir
 base=$(dirname "$scriptbase")
 
-# Fix OSX stuff, if needed
-OSX=0
+# Fix OSX stuff, if needed.
+# Set default env var 'OSX'.
+[ "$OSX" = "" ] && export OSX=0
 if [ "$1" != "no-docker-check" ]; then
   . ${scriptbase}/osx-wrap-start.sh
 fi
