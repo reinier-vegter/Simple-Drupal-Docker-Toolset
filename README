@@ -32,13 +32,13 @@ GNU/Linux distro:
 OSX
 From: https://docs.docker.com/installation/mac/
  - Install toolbox from https://www.docker.com/toolbox
- - Open Docker Quickstart Terminal
- - Install shizzle
+ - Open Docker Quickstart Terminal and close when finished
 
 - Add your user to 'wheel' group (awesome people):
   sudo dseditgroup -o edit -a $(whoami) -t user wheel
 - Give wheel-group write access to hosts file:
   sudo chmod 664 /etc/hosts
+- Run bin/install.sh to symlink all needed scripts to your bin folder.
 
 ############################################################################################################
 AVAILABLE COMMANDS
