@@ -71,6 +71,8 @@ QUICK START
  Note that settings.php must contain the mysql-host 'mysql-docker.dev',
  and that solr is reachable at solr4-docker.dev:8983/solr or localhost:8983 from each drupal container.
 
+ Building docker images is done the first time you use them ("d7-start"), and can take a while.
+
 
 ############################################################################################################
 CUSTOM PROJECT CONFIGURATION
