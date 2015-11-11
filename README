@@ -1,7 +1,7 @@
 
-############################################################################################################
+#######################################################################
 Drupal development toolkit based on Docker
-############################################################################################################
+#######################################################################
 
 With this toolset, you can install docker and easily fire up your dev environment.
  - drupal 7
@@ -15,9 +15,9 @@ With this toolset, you can install docker and easily fire up your dev environmen
  - Varnish out-of-the-box (See 'CUSTOM PROJECT CONFIGURATION')
 
 
-############################################################################################################
+#######################################################################
 INSTALLATION
-############################################################################################################
+#######################################################################
 GNU/Linux distro:
  - Install docker:
    curl -sSL https://get.docker.com/ | sh
@@ -40,9 +40,9 @@ From: https://docs.docker.com/installation/mac/
   sudo chmod 664 /etc/hosts
 - Run bin/install.sh to symlink all needed scripts to your bin folder.
 
-############################################################################################################
+#######################################################################
 AVAILABLE COMMANDS
-############################################################################################################
+#######################################################################
 
   - d7-build-docker-image           : Build / rebuild the drupal 7 docker image
   - d7-start                        : start drupal 7 container from project folder
@@ -64,9 +64,9 @@ AVAILABLE COMMANDS
   - d7-help                         : Show README
 
 
-############################################################################################################
+#######################################################################
 QUICK START
-############################################################################################################
+#######################################################################
  To start your project, go to the project folder, and run 'd7-start'
  Note that settings.php must contain the mysql-host 'mysql-docker.dev',
  and that solr is reachable at solr4-docker.dev:8983/solr or localhost:8983 from each drupal container.
@@ -74,9 +74,9 @@ QUICK START
  Building docker images is done the first time you use them ("d7-start"), and can take a while.
 
 
-############################################################################################################
+#######################################################################
 CUSTOM PROJECT CONFIGURATION
-############################################################################################################
+#######################################################################
  Custom docker stuff per project:
    Add file .d7-docker.conf to your project folder.
 
