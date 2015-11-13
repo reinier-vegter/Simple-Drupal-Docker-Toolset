@@ -8,6 +8,10 @@ root_passwd=root
 name='docker.mysql'
 image='mysql:5.6.26'
 container_hostname='mysql-docker.dev'
+local_data_folder=${HOME}'/.drupal_docker_toolset/mysql_data'
+
+# Create datafolder if it doesn't exist.
+[ ! -d ${local_data_folder} ] && mkdir -p ${local_data_folder}
 
 # cleanup if this container does exist but stopped.
 container_running=$(docker ps -a --filter "name=$name" --filter "status=running" --format "{{.ID}}")
@@ -26,7 +30,7 @@ else
     if [ "$D7_VBOX_IP" != "" ]; then
       exposed_port_opts="-p 3306:3306"
     fi
-    run="docker run --name $name -v ${cust_config_folder}:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=$root_passwd ${exposed_port_opts} -d $image"
+    run="docker run --name $name -v ${local_data_folder}:/var/lib/mysql -v ${cust_config_folder}:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=$root_passwd ${exposed_port_opts} -d $image"
     echo ${run}
     ${run}
   fi

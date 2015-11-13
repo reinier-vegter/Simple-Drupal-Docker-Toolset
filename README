@@ -8,7 +8,7 @@ With this toolset, you can install docker and easily fire up your dev environmen
  - SSL support
  - PHP5.4 (based on debian 7)
  - Apache 2.2
- - one MySQL container for all projects
+ - one MySQL container for all projects (data saved in your local home-folder).
  - one Drupal 7 container + hostname per project
  - one Solr container for all projects
  - mailsink that collects al emails sent through sendmail (/tmp/d7-docker-mailsink on host)
