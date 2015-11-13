@@ -5,7 +5,7 @@ binary_path='/bin'
 script=$(readlink -n $0 || echo "$0")
 mydir=$(cd `dirname "$script"` && pwd -P)
 
-. ${mydir}/common.sh
+. ${mydir}/common.sh no-docker-check
 
 # scripts to symlink.
 scripts=(
@@ -31,6 +31,10 @@ me=$(whoami)
 
 echo "Do you want me to symlink my shell-scripts to your /bin folder, and make them system-wide executable ?"
 echo "Note that you must leave 'this' folder in place. If you move it, re-run this script again."
+
+if [ $OSX -eq 1 ]; then
+  echo "Furthermore, I need to install the docker-machine-nfs script from https://github.com/adlogix/docker-machine-nfs"
+fi
 echo "Enter to proceed, or ctr-c to abort."
 
 read input
@@ -48,3 +52,10 @@ if [ -f "${mydir}/$file" ]; then
  fi
 done
 cd "${oldpwd}"
+
+# Install docker-machine-nfs script.
+if [ $OSX -eq 1 ]; then
+curl https://raw.githubusercontent.com/adlogix/docker-machine-nfs/master/docker-machine-nfs.sh |
+  sudo tee /usr/local/bin/docker-machine-nfs > /dev/null && \
+  sudo chmod +x /usr/local/bin/docker-machine-nfs
+fi

@@ -21,8 +21,14 @@ base=$(dirname "$scriptbase")
 # Fix OSX stuff, if needed.
 # Set default env var 'OSX'.
 [ "$OSX" = "" ] && export OSX=0
-if [ "$1" != "no-docker-check" ]; then
-  . ${scriptbase}/osx-wrap-start.sh
+if [[ "$(uname -a)" == *"Darwin"* ]]; then
+  # OH NO, USING DORA LAPTOP!!
+  echo "Oh joy, you're using a mac"
+  export OSX=1
+
+  if [ "$1" != "no-docker-check" ]; then
+    . ${scriptbase}/osx-wrap-start.sh
+  fi
 fi
 
 d7_container_name='d7'$(pwd | sed 's| |_|g' | sed 's|/|.|g')
