@@ -35,9 +35,14 @@ case "$PHP_VERSION" in
   5.6)
     image='fin-d7-56'
     ;;
+  7.0)
+    image='fin-d7-70'
+    ;;
   *)
     image='fin-d7-54'
+    PHP_VERSION="5.4"
 esac
+env_vars=${env_vars}" -e PHP_VERSION="${PHP_VERSION}
 
 # check if this is drupal.
 if [ $NO_DRUPAL_CHECK -ne 1 ]; then

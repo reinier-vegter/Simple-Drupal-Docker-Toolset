@@ -73,7 +73,7 @@ sub vcl_recv {
       return (synth(405, "This IP is not allowed to send PURGE requests."));
     }
     # If you got this stage (and didn't error out above), purge the cached result
-    ban("req.url == " + req.url);
+    ban("req.url ~ " + req.url + "$");
 
     # Throw a synthetic page so the
     # request won't go to the backend.

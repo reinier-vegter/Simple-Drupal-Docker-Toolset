@@ -24,6 +24,13 @@ $CAT /etc/hosts.tmp > /etc/hosts
 rm -rf /etc/hosts.tmp
 # ==
 
+# ==================== Set apache vhost, if necessary ==
+  if [ "$PHP_VERSION" = "7.0" ]; then
+    rm /etc/apache2/sites-available/000-default.conf
+    ln -s /bootstrap/php7.default.vhost /etc/apache2/sites-available/000-default.conf
+  fi
+# ==
+
 # ==================== Run apache as 'us' ==============
 if [ "$DOCKERUSER" != "" ]; then
   if [ "$(cat /etc/passwd | grep $DOCKERUSER)" = "" ]; then
@@ -50,7 +57,7 @@ fi
 
 # =================== Enable varnish ? =================
 if [ $VARNISH_ENABLE -eq 1 ]; then
-  service varnish start
+  # Do not run varnish yet, or it will show 'backend down' on first start.
   # Run apache on port 90 instead of 80.
   sed -i 's/ 80$/ 90/g' /etc/apache2/ports.conf
   sed -i 's/:80$/:90/g' /etc/apache2/ports.conf
@@ -69,6 +76,6 @@ fi
 # ==
 
 service apache2 start
-# /usr/sbin/sshd -D
+[ $VARNISH_ENABLE -eq 1 ] && service varnish start
 /usr/sbin/sshd
 tail -f /var/log/apache2/*log /var/log/syslog
