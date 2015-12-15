@@ -59,19 +59,12 @@ RUN sed -i 's/DAEMON_OPTS="-a :6081/DAEMON_OPTS="-a :80/' /etc/default/varnish
 # RUN rm -rf /var/lib/apt/lists/*
 
 # Install Composer.
-# RUN curl -sS https://getcomposer.org/installer | php
-# RUN mv composer.phar /usr/local/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer
 #
 ## Setup PHP.
-#RUN sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/apache2/php.ini
-#RUN sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/cli/php.ini
-
-# Setup Apache.
-#RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/sites-available/default
-#RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/sites-available/default-ssl
-
-RUN echo "Listen 8080" >> /etc/apache2/ports.conf
-# RUN sed -i 's/VirtualHost *:80/VirtualHost */' /etc/apache2/sites-available/default
+RUN sed -i 's/display_errors = Off/display_errors = On/' /etc/php/7.0/apache2/php.ini
+RUN sed -i 's/display_errors = Off/display_errors = On/' /etc/php/7.0/cli/php.ini
 
 ## Add solr proxy to apache
 RUN echo "Listen 8983" >> /etc/apache2/ports.conf
@@ -86,30 +79,20 @@ RUN a2enmod ssl
 # Setup SSH.
 RUN echo 'root:root' | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-## RUN mkdir /var/run/sshd && chmod 0755 /var/run/sshd
-## RUN mkdir -p /root/.ssh/ && touch /root/.ssh/authorized_keys
-## RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
 # Enable mysql/apache on boot.
 RUN update-rc.d apache2 defaults
 RUN mkdir /var/run/sshd
-
-# Setup Supervisor.
-## RUN echo -e '[program:apache2]\ncommand=/bin/bash -c "source /etc/apache2/envvars && exec /usr/sbin/apache2 -DFOREGROUND"\nautorestart=true\n\n' >> /etc/supervisor/supervisord.conf
-## RUN echo -e '[program:mysql]\ncommand=/usr/bin/pidproxy /var/run/mysqld/mysqld.pid /usr/sbin/mysqld\nautorestart=true\n\n' >> /etc/supervisor/supervisord.conf
-## RUN echo -e '[program:sshd]\ncommand=/usr/sbin/sshd -D\n\n' >> /etc/supervisor/supervisord.conf
-## RUN echo -e '[program:blackfire]\ncommand=/usr/local/bin/launch-blackfire\n\n' >> /etc/supervisor/supervisord.conf
-
 
 # Let memcached listen on any IP, so it's connectable from outside the container.
 RUN sed -i 's/-l 127.0.0.1/-l 0.0.0.0/' /etc/memcached.conf
 # Disable memcached by default.
 RUN update-rc.d memcached disable
 
-## Install Drush 7.
-#RUN composer global require drush/drush:7.*
-#RUN composer global update
+## Install Drush 8.
+RUN composer global require drush/drush:8.*
+RUN composer global update
 ## Unfortunately, adding the composer vendor dir to the PATH doesn't seem to work. So:
-#RUN ln -s /root/.composer/vendor/bin/drush /usr/local/bin/drush
+RUN ln -s /root/.composer/vendor/bin/drush /usr/local/bin/drush
 
 EXPOSE 80 443 22 11211

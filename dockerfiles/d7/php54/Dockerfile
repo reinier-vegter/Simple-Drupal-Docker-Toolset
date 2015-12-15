@@ -60,9 +60,6 @@ RUN sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/cli/php.ini
 RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/sites-available/default
 RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/sites-available/default-ssl
 
-# RUN echo "Listen 8080" >> /etc/apache2/ports.conf
-# RUN sed -i 's/VirtualHost *:80/VirtualHost */' /etc/apache2/sites-available/default
-
 ## Add solr proxy to apache
 RUN echo "Listen 8983" >> /etc/apache2/ports.conf
 RUN echo "NameVirtualHost *:8983" >> /etc/apache2/ports.conf

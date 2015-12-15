@@ -53,6 +53,10 @@ if [ -d /etc/php5/custom.conf.d ]; then
   ln -s /etc/php5/custom.conf.d/custom-config.ini /etc/php5/cli/conf.d/
   ln -s /etc/php5/custom.conf.d/custom-config.ini /etc/php5/apache2/conf.d/
 fi
+if [ -d /etc/php/7.0 ]; then
+  ln -s /etc/php5/custom.conf.d/custom-config.php70.ini /etc/php/7.0/apache2/conf.d/
+  ln -s /etc/php5/custom.conf.d/custom-config.php70.ini /etc/php/7.0/cli/conf.d/
+fi
 # ==
 
 # =================== Enable varnish ? =================
