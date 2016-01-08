@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Simple-drupal-docker-toolset : Drupal development toolset, quick, easy, no complex configs.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Simple-drupal-docker-toolset</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset">View on GitHub</a>
+
+          <h1 id="project_title">Simple-drupal-docker-toolset</h1>
+          <h2 id="project_tagline">Drupal development toolset, quick, easy, no complex configs.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a id="drupal-development-toolkit-based-on-docker" class="anchor" href="#drupal-development-toolkit-based-on-docker" aria-hidden="true"><span class="octicon octicon-link"></span></a>Drupal development toolkit based on Docker</h2>
+
+<p>With this toolset, you can install docker and easily fire up your dev environment.</p>
+
+<ul>
+<li>drupal 7</li>
+<li>SSL support</li>
+<li>PHP5.4 (based on debian 7)</li>
+<li>Apache 2.2</li>
+<li>one MySQL container for all projects (data saved in your local home-folder).</li>
+<li>one Drupal 7 container + hostname per project</li>
+<li>one Solr container for all projects</li>
+<li>mailsink that collects al emails sent through sendmail (/tmp/d7-docker-mailsink on host)</li>
+<li>Varnish out-of-the-box (See 'CUSTOM PROJECT CONFIGURATION')</li>
+</ul>
+
+<h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>INSTALLATION</h3>
+
+<p>GNU/Linux distro:</p>
+
+<ul>
+<li>Install docker:
+curl -sSL <a href="https://get.docker.com/">https://get.docker.com/</a> | sh</li>
+<li>Add yourself to docker group
+sudo usermod -aG docker [YOUR USER]</li>
+<li>Then, logout your system and login again</li>
+<li>Run bin/install.sh to symlink all needed scripts to your bin folder.</li>
+<li>Give write access to yourself on hosts file
+sudo chown root:$(whoami) /etc/hosts
+sudo chmod 664 /etc/hosts</li>
+</ul>
+
+<p>OSX
+From: <a href="https://docs.docker.com/installation/mac/">https://docs.docker.com/installation/mac/</a></p>
+
+<ul>
+<li>Install toolbox from <a href="https://www.docker.com/toolbox">https://www.docker.com/toolbox</a>
+</li>
+<li>Open Docker Quickstart Terminal and close when finished</li>
+</ul>
+
+<ul>
+<li>Add your user to 'wheel' group (awesome people):
+sudo dseditgroup -o edit -a $(whoami) -t user wheel</li>
+<li>Give wheel-group write access to hosts file:
+sudo chmod 664 /etc/hosts</li>
+<li>Run bin/install.sh to symlink all needed scripts to your bin folder.</li>
+</ul>
+
+<h3>
+<a id="available-commands" class="anchor" href="#available-commands" aria-hidden="true"><span class="octicon octicon-link"></span></a>AVAILABLE COMMANDS</h3>
+
+<pre><code>    - d7-build-docker-image           : Build / rebuild the drupal 7 docker image
+    - d7-start                        : start drupal 7 container from project folder
+    - d7-stop                         : stop container for 'this' project
+    - d7-mysql-start                  : start mysql container (triggered by d7-start)
+    - d7-mysql-stop                   : stop mysql container
+    - d7-solr4-start                  : start solr4 container (triggered by d7-start)
+    - d7-solr4-stop                   : stop solr4 container
+    - d7-status                       : shows all docker containers (running and stopped)
+    - d7-stop-all                     : stop all drupal 7 containers
+    - d7-cleanup                      : Cleanup (stop + remove) all drupal 7 containers.
+                                        : They are disposable, and usually removed immediately
+                                        : when you stop a d7 container.
+    - d7-logs [num|all]               : Tail all apache logs.
+                                        : Argument sets number of lines to print, before following.
+                                        :   (Should be integer, or 'all')
+                                        : Starts 'docker logs --tail=[num] -f [container]'
+    - d7-ssh [container (optional)]   : Open shell (bash) in container. Defaults to container in current webroot folder.
+    - d7-help                         : Show README
+</code></pre>
+
+<h3>
+<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span class="octicon octicon-link"></span></a>QUICK START</h3>
+
+<p>To start your project, go to the project folder, and run 'd7-start'
+Note that settings.php must contain the mysql-host 'mysql-docker.dev',
+and that solr is reachable at solr4-docker.dev:8983/solr or localhost:8983 from each drupal container.</p>
+
+<p>Building docker images is done the first time you use them ("d7-start"), and can take a while.</p>
+
+<h3>
+<a id="custom-project-configuration" class="anchor" href="#custom-project-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>CUSTOM PROJECT CONFIGURATION</h3>
+
+<p>Custom docker stuff per project:
+Add file .d7-docker.conf to your project folder.</p>
+
+<p><strong>Be aware that any bash code in this file is actually executed</strong></p>
+
+<p>Example content of file:</p>
+
+<pre><code>    # Add dependency container.
+    # Format: [container name]:[start-script/command]
+    # CUST_DEPENDENCIES=(
+    #   "docker.mysql:${mydir}/d7-mysql-start.sh"
+    #   "docker.solr4:${mydir}/d7-solr4-start.sh"
+    # )
+    #
+    # Add custom link between containers.
+    # Format: [dependency container name]:[hostname in 'this' container, mapped to dependency]
+    # CUST_LINK=(
+    #   "docker.mysql:mysql-docker.dev"
+    #   "docker.solr4:solr4-docker.dev"
+    # )
+    #
+    # Mount extra volumes in container.
+    # Format: [local folder]:[folder in container]
+    # CUST_VOL="/opt/simplesamlphp:/opt/simplesamlphp1"
+    #
+    # Give container extra hostnames.
+    # CUST_HOSTNAMES=(
+    #   "dev.my-favorite-hostname.com"
+    # )
+    #
+    # Do not check if this is actually Drupal. Usable for 'other' php apps to be ran in
+    # a D7 container.
+    # NO_DRUPAL_CHECK=1
+    #
+    # Enable Varnish cache engine
+    # VARNISH_ENABLE=1
+    #
+    # Enable memcache daemon
+    # MEMCACHED_ENABLE=1
+    #
+    # Set PHP version to use
+    # PHP_VERSION=5.4
+    # Supported versions: 5.4, 5.6
+    # Defaults to 5.4
+</code></pre>
+
+<h3>
+<a id="use-of-xdebug" class="anchor" href="#use-of-xdebug" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use of XDebug</h3>
+
+<p>XDebug is installed in the container.
+To use it with php-storm, make sure </p>
+
+<ul>
+<li>to just enable the listener (no server config needed, defaults work fine)
+in order to start debugging</li>
+</ul>
+
+<p>To use XDebug profiler, just add a 'profiler' folder in your project.
+It will generate cachegrind files that you can open with KCacheGrind or any other tool.
+See <a href="http://www.xdebug.org/docs/profiler">http://www.xdebug.org/docs/profiler</a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Simple-drupal-docker-toolset maintained by <a href="https://github.com/reinier-vegter">reinier-vegter</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
