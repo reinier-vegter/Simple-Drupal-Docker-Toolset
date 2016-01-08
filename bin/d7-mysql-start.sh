@@ -4,10 +4,9 @@ script=$(readlink -n $0 || echo "$0")
 mydir=$(cd `dirname "$script"` && pwd -P)
 . ${mydir}/common.sh
 
-root_passwd=admin
+root_passwd=root
 name='docker.mysql'
 image='mysql:5.6.26'
-image='dgraziotin/mysql'
 container_hostname='mysql-docker.dev'
 local_data_folder=${HOME}'/.drupal_docker_toolset/mysql_data'
 
@@ -31,7 +30,7 @@ else
     if [ "$D7_VBOX_IP" != "" ]; then
       exposed_port_opts="-p 3306:3306"
     fi
-    run="docker run --name $name -v ${local_data_folder}:/var/lib/mysql -v ${cust_config_folder}:/etc/mysql/conf.d -e MYSQL_ADMIN_PASS=$root_passwd ${exposed_port_opts} -d $image"
+    run="docker run --name $name -v ${local_data_folder}:/var/lib/mysql -v ${cust_config_folder}:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=$root_passwd ${exposed_port_opts} -d $image"
     echo ${run}
     ${run}
   fi
@@ -44,4 +43,4 @@ if [ $? -ne 0 ]; then
 fi
 
 echo " :MYSQL:  Access me on ${container_hostname}"":3306"
-echo " :MYSQL:  MySQL admin password: $root_passwd (user is 'admin')"
+echo " :MYSQL:  MySQL root password: $root_passwd"
