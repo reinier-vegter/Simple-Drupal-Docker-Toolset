@@ -4,6 +4,10 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Install packages.
+# Dummy number to increase.
+# Makes sure apt cache is refreshed on a new container build.
+# Only needed if this package list is changed.
+RUN number=2
 RUN apt-get update
 RUN apt-get install -y \
 	vim \
@@ -25,7 +29,8 @@ RUN apt-get install -y \
 	net-tools \
 	memcached \
 	php5-memcache \
-	php5-dev
+	php5-dev \
+	php5-xdebug
 
 # install xhprof
 RUN pecl config-set preferred_state beta
@@ -96,6 +101,7 @@ RUN update-rc.d memcached disable
 # Install Drush 7.
 RUN composer global require drush/drush:7.*
 RUN composer global update
+
 # Unfortunately, adding the composer vendor dir to the PATH doesn't seem to work. So:
 RUN ln -s /root/.composer/vendor/bin/drush /usr/local/bin/drush
 

@@ -121,3 +121,20 @@ CUSTOM PROJECT CONFIGURATION
    # PHP_VERSION=5.4
    # Supported versions: 5.4, 5.6
    # Defaults to 5.4
+
+#######################################################################
+Use of XDebug
+#######################################################################
+XDebug is installed in the container.
+To use it with php-storm, make sure 
+  - to just enable the listener (no server config needed, defaults work fine)
+    in order to start debugging
+
+To use XDebug profiler, just add a 'profiler' folder in your project.
+It will generate cachegrind files that you can open with KCacheGrind or any other tool.
+See http://www.xdebug.org/docs/profiler
+
+
+
+
+

@@ -72,6 +72,9 @@ for hostname in ${custom_hostnames[@]}; do
   env_vars=${env_vars}" -e VIRTUAL_HOST="${hostname}
 done
 
+# Add Xdebug host ip.
+env_vars=${env_vars}" -e XDEBUG_CONFIG='remote_host=dockerhost'"
+
 # check drupal base image
 function check_drupal_image() {
   if [ "$(docker images | grep $image)" = "" ]; then
