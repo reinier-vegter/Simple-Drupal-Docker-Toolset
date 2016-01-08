@@ -7,7 +7,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 # Dummy number to increase.
 # Makes sure apt cache is refreshed on a new container build.
 # Only needed if this package list is changed.
-RUN number=2
+RUN number=3
 RUN apt-get update
 RUN apt-get install -y \
 	vim \
@@ -30,7 +30,8 @@ RUN apt-get install -y \
 	memcached \
 	php5-memcache \
 	php5-dev \
-	php5-xdebug
+	php5-xdebug \
+	mysql-client
 
 # install xhprof
 RUN pecl config-set preferred_state beta
