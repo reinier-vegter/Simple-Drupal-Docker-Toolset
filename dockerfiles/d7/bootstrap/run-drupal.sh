@@ -10,18 +10,21 @@ cp /bootstrap/varnish-default.vcl /etc/varnish/default.vcl
 # Echo's mail into /var/log/mail
 ln -s /bootstrap/sendmail /bin/sendmail
 
-# ===================== Give host a hostname ============
+# ===================== Give host a hostname unless it's already known (on a mac) ============
 SED="$(which sed)"
 NETSTAT="$(which netstat)"
 GREP="$(which grep)"
 AWK="$(which awk)"
 CAT="$(which cat)"
 
-$SED '/dockerhost$/d' /etc/hosts > /etc/hosts.tmp
-DOCKERHOST="$($NETSTAT -nr | $GREP '^0\.0\.0\.0' | $AWK '{print $2}')"
-echo "$DOCKERHOST dockerhost" >> /etc/hosts.tmp
-$CAT /etc/hosts.tmp > /etc/hosts
-rm -rf /etc/hosts.tmp
+host_known=$($CAT /etc/hosts | grep dockerhost)
+if [ "${host_known}" = "" ]; then
+  $SED '/dockerhost$/d' /etc/hosts > /etc/hosts.tmp
+  DOCKERHOST="$($NETSTAT -nr | $GREP '^0\.0\.0\.0' | $AWK '{print $2}')"
+  echo "$DOCKERHOST dockerhost" >> /etc/hosts.tmp
+  $CAT /etc/hosts.tmp > /etc/hosts
+  rm -rf /etc/hosts.tmp
+fi
 # ==
 
 # ==================== Set apache vhost, if necessary ==
