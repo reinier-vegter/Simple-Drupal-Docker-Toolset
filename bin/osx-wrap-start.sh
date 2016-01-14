@@ -12,7 +12,7 @@ if [ $? -ne 0 ]; then
     # start vm
     docker-machine start $DOCKERVM
     # Turn vboxsf mounts into NFS.
-    # docker-machine-nfs $DOCKERVM
+    docker-machine-nfs $DOCKERVM
   fi
   # import docker env vars in shell
   eval "$(docker-machine env $DOCKERVM)"

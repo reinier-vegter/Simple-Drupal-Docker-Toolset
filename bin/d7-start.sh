@@ -61,6 +61,15 @@ if [ $MEMCACHED_ENABLE -eq 1 ]; then
   env_vars=${env_vars}" -e MEMCACHED_ENABLE=1"
 fi
 
+# Add dockerhost to container, if it's running inside virtualbox.
+# dockerhost should refer to vbox host, instead of vbox VM.
+if [ "$D7_VBOX_IP" != "" ]; then
+  echo "Running in vbox, with VM IP $D7_VBOX_IP"
+  dockerhost=$(echo $D7_VBOX_IP | sed 's|\.[0-9]\{1,3\}$|.1|g')
+  echo "   -> $dockerhost"
+  hostname_opts=${hostname_opts}" --add-host dockerhost:${dockerhost}"
+fi
+
 # Generate hostname.
 container_hostname="dev.$(basename `pwd`).local"
 
