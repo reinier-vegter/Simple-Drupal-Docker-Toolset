@@ -106,6 +106,7 @@ else
   ${CMD}
 fi
 
+hostname_list_message=""
 ip=$(publicIp $d7_container_name)
 # add host to hostsfile.
 "${mydir}"/d7-add-host.sh ${ip} ${container_hostname}
@@ -115,9 +116,11 @@ else
   # Add custom hostnames to hostsfile.
   for hostname in ${custom_hostnames[@]}; do
     "${mydir}"/d7-add-host.sh ${ip} ${hostname}
+    hostname_list_message=${hostname_list_message}"\n Additional hostname: ${hostname}"
   done
 fi
 
 echo ""
 echo " :D7:  Access me on http://$container_hostname/ or $container_hostname (for ssh etc)."
 echo " :D7:  my ssh root passwd: 'root'"
+echo -e ${hostname_list_message}
