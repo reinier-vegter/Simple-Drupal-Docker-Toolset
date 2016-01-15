@@ -39,13 +39,15 @@
 <ul>
 <li>drupal 7</li>
 <li>SSL support</li>
-<li>PHP5.4 (based on debian 7)</li>
+<li>PHP 5.4, 5.6 (default), 7.0</li>
 <li>Apache 2.2</li>
 <li>one MySQL container for all projects (data saved in your local home-folder).</li>
 <li>one Drupal 7 container + hostname per project</li>
 <li>one Solr container for all projects</li>
 <li>mailsink that collects al emails sent through sendmail (/tmp/d7-docker-mailsink on host)</li>
-<li>Varnish out-of-the-box (See 'CUSTOM PROJECT CONFIGURATION')</li>
+<li>varnish out-of-the-box (See 'CUSTOM PROJECT CONFIGURATION')</li>
+<li>memcache</li>
+<li>custom mounts</li>
 </ul>
 
 <h2>
@@ -55,6 +57,9 @@
 
 <h3>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>INSTALLATION</h3>
+
+<p>Clone git repository somewehere in local folder, or download archive package, and unpack.
+  # git clone <a href="https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset.git">https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset.git</a> ~/docker-drupal</p>
 
 <p>GNU/Linux distro:</p>
 
@@ -164,15 +169,15 @@ Add file .d7-docker.conf to your project folder.</p>
     #
     # Set PHP version to use
     # PHP_VERSION=5.4
-    # Supported versions: 5.4, 5.6
-    # Defaults to 5.4
+    # Supported versions: 5.4, 5.6, 7.0 (not all packages included yet).
+    # Defaults to 5.6
 </code></pre>
 
 <h3>
 <a id="use-of-xdebug" class="anchor" href="#use-of-xdebug" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use of XDebug</h3>
 
 <p>XDebug is installed in the container.
-To use it with php-storm, make sure </p>
+To use it with php-storm, make sure</p>
 
 <ul>
 <li>to just enable the listener (no server config needed, defaults work fine)
@@ -193,7 +198,17 @@ See <a href="http://www.xdebug.org/docs/profiler">http://www.xdebug.org/docs/pro
       </footer>
     </div>
 
-    
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-54818800-5");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
 
   </body>
 </html>
