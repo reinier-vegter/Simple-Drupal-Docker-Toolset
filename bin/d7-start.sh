@@ -30,16 +30,16 @@ function noDrupal () {
 # Set image w.r.t. php version.
 case "$PHP_VERSION" in
   5.4)
-    image='fin-d7-54'
+    image='rvegter/simple-drupal-docker-toolset:php54'
    ;;
   5.6)
-    image='fin-d7-56'
+    image='rvegter/simple-drupal-docker-toolset:php56'
     ;;
   7.0)
-    image='fin-d7-70'
+    image='rvegter/simple-drupal-docker-toolset:php70'
     ;;
   *)
-    image='fin-d7-54'
+    image='rvegter/simple-drupal-docker-toolset:php54'
     PHP_VERSION="5.4"
 esac
 env_vars=${env_vars}" -e PHP_VERSION="${PHP_VERSION}
@@ -106,7 +106,9 @@ else
   fi
 
   # Check drupal image.
-  check_drupal_image
+  # check_drupal_image
+  # TODO: should be used for development environment somehow,
+  # to make us able to build images local.
 
   cust_config_folder="${mydir}/../php"
   run="/bin/bash /bootstrap/run-drupal.sh"
