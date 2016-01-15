@@ -1,4 +1,4 @@
-FROM fin-d7-54:latest
+FROM rvegter/simple-drupal-docker-toolset:php54
 MAINTAINER Reinier Vegter <hr.vegter@gmail.com>
 
 RUN echo "deb http://packages.dotdeb.org wheezy-php56 all" >> /etc/apt/sources.list.d/dotdeb.list
