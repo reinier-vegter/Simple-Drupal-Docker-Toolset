@@ -39,8 +39,8 @@ case "$PHP_VERSION" in
     image='rvegter/simple-drupal-docker-toolset:php70'
     ;;
   *)
-    image='rvegter/simple-drupal-docker-toolset:php54'
-    PHP_VERSION="5.4"
+    image='rvegter/simple-drupal-docker-toolset:php56'
+    PHP_VERSION="5.6"
 esac
 env_vars=${env_vars}" -e PHP_VERSION="${PHP_VERSION}
 
