@@ -1,6 +1,6 @@
 ## Drupal development toolkit based on Docker
 
-_Visit at Github Pages: http://reinier-vegter.github.io/Simple-Drupal-Docker-Toolset/_
+Visit at Github Pages: http://reinier-vegter.github.io/Simple-Drupal-Docker-Toolset/
 
 With this toolset, you can install docker and easily fire up your dev environment.
  - drupal 7
