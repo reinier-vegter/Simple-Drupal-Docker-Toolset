@@ -46,7 +46,7 @@ cd ${mydir}
 for file in ${scripts[@]}; do
 if [ -f "${mydir}/$file" ]; then
    link_name="${binary_path}/${file%.*}"
-   [ -f "${link_name}" ] && rm "${link_name}"
+   [ -L "${link_name}" ] && rm "${link_name}"
    ln -s "${mydir}/$file" "${link_name}"
    echo " -> ${file%.*}"
  fi
