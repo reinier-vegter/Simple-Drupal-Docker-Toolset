@@ -2,13 +2,13 @@
 
 Visit at Github Pages: http://reinier-vegter.github.io/Simple-Drupal-Docker-Toolset/
 
-With this toolset, you can install docker and easily fire up your dev environment.
+With this toolset, you can install docker and easily fire up eny existing Drupal (or php) webroot in 2 seconds.
  - drupal 7
  - SSL support
  - PHP 5.4, 5.6 (default), 7.0
  - Apache 2.2
  - one MySQL container for all projects (data saved in your local home-folder).
- - one Drupal 7 container + hostname per project
+ - one Drupal container + hostname per project
  - one Solr container for all projects
  - mailsink that collects al emails sent through sendmail (/tmp/d7-docker-mailsink on host)
  - varnish out-of-the-box (See 'CUSTOM PROJECT CONFIGURATION')
