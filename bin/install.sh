@@ -24,6 +24,7 @@ scripts=(
   'd7-proxy-start.sh'
   'd7-proxy-stop.sh'
   'd7-ssh.sh'
+  'd7-update-images.sh'
 )
 
 me=$(whoami)
@@ -55,7 +56,10 @@ cd "${oldpwd}"
 
 # Install docker-machine-nfs script.
 if [ $OSX -eq 1 ]; then
-curl https://raw.githubusercontent.com/adlogix/docker-machine-nfs/master/docker-machine-nfs.sh |
+  curl https://raw.githubusercontent.com/adlogix/docker-machine-nfs/master/docker-machine-nfs.sh |
   sudo tee /usr/local/bin/docker-machine-nfs > /dev/null && \
   sudo chmod +x /usr/local/bin/docker-machine-nfs
 fi
+
+# Update images if needed.
+d7-update-images y
