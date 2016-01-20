@@ -95,26 +95,39 @@ sudo chmod 664 /etc/hosts</li>
 </ul>
 
 <h3>
+<a id="update-toolset" class="anchor" href="#update-toolset" aria-hidden="true"><span class="octicon octicon-link"></span></a>UPDATE TOOLSET</h3>
+
+<p>Do a git pull to fetch the latest master-branch for this toolset.
+  Then, run bin/install.sh again.</p>
+
+<h3>
 <a id="available-commands" class="anchor" href="#available-commands" aria-hidden="true"><span class="octicon octicon-link"></span></a>AVAILABLE COMMANDS</h3>
 
-<pre><code>    - d7-build-docker-image           : Build / rebuild the drupal 7 docker image
-    - d7-start                        : start drupal 7 container from project folder
+<pre><code>    - d7-start                        : start drupal 7 container from project folder
     - d7-stop                         : stop container for 'this' project
     - d7-mysql-start                  : start mysql container (triggered by d7-start)
     - d7-mysql-stop                   : stop mysql container
     - d7-solr4-start                  : start solr4 container (triggered by d7-start)
     - d7-solr4-stop                   : stop solr4 container
     - d7-status                       : shows all docker containers (running and stopped)
-    - d7-stop-all                     : stop all drupal 7 containers
+    - d7-stop-all                     : stops all drupal toolset related containers
+    - d7-update-images                : Will pull updated images from repository.
+                                        You should run this every once in a while.
     - d7-cleanup                      : Cleanup (stop + remove) all drupal 7 containers.
-                                        : They are disposable, and usually removed immediately
-                                        : when you stop a d7 container.
+                                        They are disposable, and usually removed immediately
+                                        when you stop a d7 container.
     - d7-logs [num|all]               : Tail all apache logs.
-                                        : Argument sets number of lines to print, before following.
-                                        :   (Should be integer, or 'all')
-                                        : Starts 'docker logs --tail=[num] -f [container]'
+                                        Argument sets number of lines to print, before following.
+                                          (Should be integer, or 'all')
+                                        Starts 'docker logs --tail=[num] -f [container]'
     - d7-ssh [container (optional)]   : Open shell (bash) in container. Defaults to container in current webroot folder.
     - d7-help                         : Show README
+</code></pre>
+
+<h3>
+<a id="commands-for-toolset-development" class="anchor" href="#commands-for-toolset-development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Commands for toolset development</h3>
+
+<pre><code>    - d7-build-docker-image           : Build / rebuild docker images. This replaces images that are downloaded from dockerhub.
 </code></pre>
 
 <h3>
