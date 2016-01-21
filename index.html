@@ -32,14 +32,14 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h2>
-<a id="drupal-development-toolkit-based-on-docker" class="anchor" href="#drupal-development-toolkit-based-on-docker" aria-hidden="true"><span class="octicon octicon-link"></span></a>Drupal development toolkit based on Docker</h2>
+<a id="drupal-development-toolkit-based-on-docker" class="anchor" href="#drupal-development-toolkit-based-on-docker" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Drupal development toolkit based on Docker</h2>
 
 <p>Visit at Github Pages: <a href="http://reinier-vegter.github.io/Simple-Drupal-Docker-Toolset/">http://reinier-vegter.github.io/Simple-Drupal-Docker-Toolset/</a></p>
 
 <p>With this toolset, you can install docker and easily fire up eny existing Drupal (or php) webroot in 2 seconds.</p>
 
 <ul>
-<li>drupal 7</li>
+<li>drupal 6,7,8 (or basically any PHP app by disabling the drupal check, NO_DRUPAL_CHECK=1)</li>
 <li>SSL support</li>
 <li>PHP 5.4, 5.6 (default), 7.0</li>
 <li>Apache 2.2</li>
@@ -52,18 +52,26 @@
 <li>custom mounts</li>
 </ul>
 
-<h2>
-<a id="credits" class="anchor" href="#credits" aria-hidden="true"><span class="octicon octicon-link"></span></a>Credits</h2>
+<hr>
+
+<h3>
+<a id="credits" class="anchor" href="#credits" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Credits</h3>
 
 <p>Simple Drupal Docker Toolset is sponsored and supported by <a href="http://www.finalist.nl/">Finalist B.V.</a></p>
 
+<hr>
+
 <h3>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>INSTALLATION</h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>INSTALLATION</h3>
+
+<h4>
+<a id="get-this-toolset-first" class="anchor" href="#get-this-toolset-first" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get this toolset first</h4>
 
 <p>Clone git repository somewehere in local folder, or download archive package, and unpack.
   # git clone <a href="https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset.git">https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset.git</a> ~/docker-drupal</p>
 
-<p>GNU/Linux distro:</p>
+<h4>
+<a id="gnulinux-distro" class="anchor" href="#gnulinux-distro" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>GNU/Linux distro:</h4>
 
 <ul>
 <li>Install docker:
@@ -77,8 +85,10 @@ sudo chown root:$(whoami) /etc/hosts
 sudo chmod 664 /etc/hosts</li>
 </ul>
 
-<p>OSX
-From: <a href="https://docs.docker.com/installation/mac/">https://docs.docker.com/installation/mac/</a></p>
+<h4>
+<a id="osx" class="anchor" href="#osx" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OSX</h4>
+
+<p>From: <a href="https://docs.docker.com/installation/mac/">https://docs.docker.com/installation/mac/</a></p>
 
 <ul>
 <li>Install toolbox from <a href="https://www.docker.com/toolbox">https://www.docker.com/toolbox</a>
@@ -95,13 +105,15 @@ sudo chmod 664 /etc/hosts</li>
 </ul>
 
 <h3>
-<a id="update-toolset" class="anchor" href="#update-toolset" aria-hidden="true"><span class="octicon octicon-link"></span></a>UPDATE TOOLSET</h3>
+<a id="update-toolset" class="anchor" href="#update-toolset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>UPDATE TOOLSET</h3>
 
 <p>Do a git pull to fetch the latest master-branch for this toolset.
   Then, run bin/install.sh again.</p>
 
+<hr>
+
 <h3>
-<a id="available-commands" class="anchor" href="#available-commands" aria-hidden="true"><span class="octicon octicon-link"></span></a>AVAILABLE COMMANDS</h3>
+<a id="available-commands" class="anchor" href="#available-commands" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AVAILABLE COMMANDS</h3>
 
 <pre><code>    - d7-start                        : start drupal 7 container from project folder
     - d7-stop                         : stop container for 'this' project
@@ -125,13 +137,15 @@ sudo chmod 664 /etc/hosts</li>
 </code></pre>
 
 <h3>
-<a id="commands-for-toolset-development" class="anchor" href="#commands-for-toolset-development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Commands for toolset development</h3>
+<a id="commands-for-toolset-development" class="anchor" href="#commands-for-toolset-development" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Commands for toolset development</h3>
 
 <pre><code>    - d7-build-docker-image           : Build / rebuild docker images. This replaces images that are downloaded from dockerhub.
 </code></pre>
 
+<hr>
+
 <h3>
-<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span class="octicon octicon-link"></span></a>QUICK START</h3>
+<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>QUICK START</h3>
 
 <p>To start your project, go to the project folder, and run 'd7-start'
 Note that settings.php must contain the mysql-host 'mysql-docker.dev',
@@ -140,7 +154,21 @@ and that solr is reachable at solr4-docker.dev:8983/solr or localhost:8983 from 
 <p>Building docker images is done the first time you use them ("d7-start"), and can take a while.</p>
 
 <h3>
-<a id="custom-project-configuration" class="anchor" href="#custom-project-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>CUSTOM PROJECT CONFIGURATION</h3>
+<a id="common-hostnames" class="anchor" href="#common-hostnames" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Common hostnames</h3>
+
+<ul>
+<li>mysql-docker.dev                :  Location of mysql server, reachable from host and container</li>
+<li>solr4-docker.dev                :  Location of solr server, reachable from host and container.
+                                  PHP container can also refer to '127.0.0.1:8983' for solr.</li>
+<li>dockerhost                      :  Location of your laptop / server. Reachable from container.
+                                  To make it reachable from your laptop/server,
+                                  just add '127.0.0.1 dockerhost' to /etc/hosts .</li>
+</ul>
+
+<hr>
+
+<h3>
+<a id="custom-project-configuration" class="anchor" href="#custom-project-configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CUSTOM PROJECT CONFIGURATION</h3>
 
 <p>Custom docker stuff per project:
 Add file .d7-docker.conf to your project folder.</p>
@@ -188,16 +216,16 @@ Add file .d7-docker.conf to your project folder.</p>
     # Defaults to 5.6
 </code></pre>
 
+<hr>
+
 <h3>
-<a id="use-of-xdebug" class="anchor" href="#use-of-xdebug" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use of XDebug</h3>
+<a id="use-of-xdebug" class="anchor" href="#use-of-xdebug" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Use of XDebug</h3>
 
 <p>XDebug is installed in the container.
-To use it with php-storm, make sure</p>
+To use it with php-storm, make sure to just enable
+the listener (no server config needed, defaults work fine) in order to start debugging.</p>
 
-<ul>
-<li>to just enable the listener (no server config needed, defaults work fine)
-in order to start debugging</li>
-</ul>
+<p><img src="images/listener.png" alt="PHPStorm XDebug listener"></p>
 
 <p>To use XDebug profiler, just add a 'profiler' folder in your project.
 It will generate cachegrind files that you can open with KCacheGrind or any other tool.
