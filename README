@@ -3,7 +3,7 @@
 Visit at Github Pages: http://reinier-vegter.github.io/Simple-Drupal-Docker-Toolset/
 
 With this toolset, you can install docker and easily fire up eny existing Drupal (or php) webroot in 2 seconds.
- - drupal 7
+ - drupal 6,7,8 (or basically any PHP app by disabling the drupal check, NO_DRUPAL_CHECK=1)
  - SSL support
  - PHP 5.4, 5.6 (default), 7.0
  - Apache 2.2
@@ -15,16 +15,23 @@ With this toolset, you can install docker and easily fire up eny existing Drupal
  - memcache
  - custom mounts
 
-## Credits
+
+***
+
+### Credits
 Simple Drupal Docker Toolset is sponsored and supported by [Finalist B.V.](http://www.finalist.nl/)
+
+
+***
 
 ### INSTALLATION
 
+#### Get this toolset first
 Clone git repository somewehere in local folder, or download archive package, and unpack.
   # git clone https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset.git ~/docker-drupal
 
 
-GNU/Linux distro:
+#### GNU/Linux distro:
  - Install docker:
    curl -sSL https://get.docker.com/ | sh
  - Add yourself to docker group
@@ -35,7 +42,8 @@ GNU/Linux distro:
    sudo chown root:$(whoami) /etc/hosts
    sudo chmod 664 /etc/hosts
 
-OSX
+
+#### OSX
 From: https://docs.docker.com/installation/mac/
  - Install toolbox from https://www.docker.com/toolbox
  - Open Docker Quickstart Terminal and close when finished
@@ -46,9 +54,13 @@ From: https://docs.docker.com/installation/mac/
   sudo chmod 664 /etc/hosts
 - Run bin/install.sh to symlink all needed scripts to your bin folder.
 
+
 ### UPDATE TOOLSET
   Do a git pull to fetch the latest master-branch for this toolset.
   Then, run bin/install.sh again.
+
+
+***
 
 ### AVAILABLE COMMANDS
 
@@ -72,10 +84,13 @@ From: https://docs.docker.com/installation/mac/
         - d7-ssh [container (optional)]   : Open shell (bash) in container. Defaults to container in current webroot folder.
         - d7-help                         : Show README
 
+
 ### Commands for toolset development
 
         - d7-build-docker-image           : Build / rebuild docker images. This replaces images that are downloaded from dockerhub.
 
+
+***
 
 ### QUICK START
 
@@ -86,8 +101,18 @@ and that solr is reachable at solr4-docker.dev:8983/solr or localhost:8983 from 
 Building docker images is done the first time you use them ("d7-start"), and can take a while.
 
 
-### CUSTOM PROJECT CONFIGURATION
+### Common hostnames
+ - mysql-docker.dev                :  Location of mysql server, reachable from host and container
+ - solr4-docker.dev                :  Location of solr server, reachable from host and container.
+                                      PHP container can also refer to '127.0.0.1:8983' for solr.
+ - dockerhost                      :  Location of your laptop / server. Reachable from container.
+                                      To make it reachable from your laptop/server,
+                                      just add '127.0.0.1 dockerhost' to /etc/hosts .
 
+
+***
+
+### CUSTOM PROJECT CONFIGURATION
 Custom docker stuff per project:
 Add file .d7-docker.conf to your project folder.
 
@@ -134,12 +159,15 @@ Example content of file:
         # Defaults to 5.6
 
 
+***
+
 ### Use of XDebug
 
 XDebug is installed in the container.
-To use it with php-storm, make sure
-  - to just enable the listener (no server config needed, defaults work fine)
-    in order to start debugging
+To use it with php-storm, make sure to just enable
+the listener (no server config needed, defaults work fine) in order to start debugging.
+
+![PHPStorm XDebug listener](images/listener.png)
 
 To use XDebug profiler, just add a 'profiler' folder in your project.
 It will generate cachegrind files that you can open with KCacheGrind or any other tool.
