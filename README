@@ -164,10 +164,13 @@ Example content of file:
 ### Use of XDebug
 
 XDebug is installed in the container.
-To use it with php-storm, make sure to just enable
-the listener (no server config needed, defaults work fine) in order to start debugging.
+To use it with php-storm
+ - make sure to just enable the listener (no server config needed, defaults work fine) in order to start debugging.
+   ![PHPStorm XDebug listener](images/listener.png)
+ - Generate the bookmarklets at https://www.jetbrains.com/phpstorm/marklets/ , to start/stop the debugger.
 
-![PHPStorm XDebug listener](images/listener.png)
+That's all...
+
 
 To use XDebug profiler, just add a 'profiler' folder in your project.
 It will generate cachegrind files that you can open with KCacheGrind or any other tool.
