@@ -222,10 +222,16 @@ Add file .d7-docker.conf to your project folder.</p>
 <a id="use-of-xdebug" class="anchor" href="#use-of-xdebug" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Use of XDebug</h3>
 
 <p>XDebug is installed in the container.
-To use it with php-storm, make sure to just enable
-the listener (no server config needed, defaults work fine) in order to start debugging.</p>
+To use it with php-storm</p>
 
-<p><img src="images/listener.png" alt="PHPStorm XDebug listener"></p>
+<ul>
+<li>make sure to just enable the listener (no server config needed, defaults work fine) in order to start debugging.
+<img src="images/listener.png" alt="PHPStorm XDebug listener">
+</li>
+<li>Generate the bookmarklets at <a href="https://www.jetbrains.com/phpstorm/marklets/">https://www.jetbrains.com/phpstorm/marklets/</a> , to start/stop the debugger.</li>
+</ul>
+
+<p>That's all...</p>
 
 <p>To use XDebug profiler, just add a 'profiler' folder in your project.
 It will generate cachegrind files that you can open with KCacheGrind or any other tool.
