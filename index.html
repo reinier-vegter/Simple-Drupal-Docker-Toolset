@@ -97,6 +97,12 @@ sudo chmod 664 /etc/hosts</li>
 </ul>
 
 <ul>
+<li>
+<p>On El Capitan ?  You need to execute this, see <a href="http://stackoverflow.com/questions/32659348/operation-not-permitted-when-on-root-el-capitan-rootless-disabled">http://stackoverflow.com/questions/32659348/operation-not-permitted-when-on-root-el-capitan-rootless-disabled</a></p>
+
+<p>csrutil disable
+reboot </p>
+</li>
 <li>Add your user to 'wheel' group (awesome people):
 sudo dseditgroup -o edit -a $(whoami) -t user wheel</li>
 <li>Give wheel-group write access to hosts file:
