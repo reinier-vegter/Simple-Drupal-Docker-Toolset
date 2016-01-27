@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "This will remove (disposable) stoppped containers, where the name contains 'd7.'"
+echo "This will remove (disposable) stopped containers, where the name contains 'd7.'"
 echo "Proceed ? Press ctr-c to abort, or enter to proceed"
 read input
 

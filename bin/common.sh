@@ -31,7 +31,19 @@ if [[ "$(uname -a)" == *"Darwin"* ]]; then
   fi
 fi
 
-d7_container_name='d7'$(pwd | sed 's| |_|g' | sed 's|/|.|g')
+# Generate container name.
+base_name='d7'$(pwd | sed 's| |_|g' | sed 's|/|.|g')
+d7_container_name=${base_name}".php"
+solr_container_name=${base_name}".solr4"
+solr_container_hostname="dev.$(basename `pwd`).solr.local"
+
+# Global data folder.
+datastore=${HOME}'/.drupal_docker_toolset'
+[ ! -d ${datastore} ] && mkdir -p ${datastore}
+
+# Generate data storage for 'this' project.
+datastore_project=$(pwd)'/.drupal_docker_toolset_project'
+[ ! -d ${datastore_project} ] && mkdir -p ${datastore_project}
 
 function publicIp() {
   name=$1

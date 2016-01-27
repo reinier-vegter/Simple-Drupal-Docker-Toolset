@@ -92,6 +92,10 @@ function check_drupal_image() {
   fi
 }
 
+# Start / Attach solr container.
+d7-solr4-start
+link_opts=${link_opts}' --link '"$solr_container_name"
+
 # cleanup if this container does exist but stopped.
 container_running=$(docker ps -a --filter "name=$d7_container_name" --filter "status=running" --format "{{.ID}}")
 if [ "$container_running" != "" ]; then

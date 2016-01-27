@@ -18,10 +18,6 @@ echo ""
 echo "Stopping mysql container"
 d7-mysql-stop
 
-echo ""
-echo "Stopping solr container"
-d7-solr4-stop
-
 if [ ${OSX} -eq 1 ]; then
   echo ""
   echo "Stopping proxy"
