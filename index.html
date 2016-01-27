@@ -45,7 +45,7 @@
 <li>Apache 2.2</li>
 <li>one MySQL container for all projects (data saved in your local home-folder).</li>
 <li>one Drupal container + hostname per project</li>
-<li>one Solr container for all projects</li>
+<li>Solr 4 container for each project, data storage in project folder, and auto-using of search_api_solr config files.</li>
 <li>mailsink that collects al emails sent through sendmail (/tmp/d7-docker-mailsink on host)</li>
 <li>varnish out-of-the-box (See 'CUSTOM PROJECT CONFIGURATION')</li>
 <li>memcache</li>
@@ -101,7 +101,7 @@ sudo chmod 664 /etc/hosts</li>
 <p>On El Capitan ?  You need to execute this, see <a href="http://stackoverflow.com/questions/32659348/operation-not-permitted-when-on-root-el-capitan-rootless-disabled">http://stackoverflow.com/questions/32659348/operation-not-permitted-when-on-root-el-capitan-rootless-disabled</a></p>
 
 <p>csrutil disable
-reboot </p>
+reboot</p>
 </li>
 <li>Add your user to 'wheel' group (awesome people):
 sudo dseditgroup -o edit -a $(whoami) -t user wheel</li>
@@ -155,7 +155,7 @@ sudo chmod 664 /etc/hosts</li>
 
 <p>To start your project, go to the project folder, and run 'd7-start'
 Note that settings.php must contain the mysql-host 'mysql-docker.dev',
-and that solr is reachable at solr4-docker.dev:8983/solr or localhost:8983 from each drupal container.</p>
+and that solr is reachable at localhost:8983 from each drupal container.</p>
 
 <p>Building docker images is done the first time you use them ("d7-start"), and can take a while.</p>
 
@@ -164,8 +164,6 @@ and that solr is reachable at solr4-docker.dev:8983/solr or localhost:8983 from 
 
 <ul>
 <li>mysql-docker.dev                :  Location of mysql server, reachable from host and container</li>
-<li>solr4-docker.dev                :  Location of solr server, reachable from host and container.
-                                  PHP container can also refer to '127.0.0.1:8983' for solr.</li>
 <li>dockerhost                      :  Location of your laptop / server. Reachable from container.
                                   To make it reachable from your laptop/server,
                                   just add '127.0.0.1 dockerhost' to /etc/hosts .</li>
@@ -220,6 +218,12 @@ Add file .d7-docker.conf to your project folder.</p>
     # PHP_VERSION=5.4
     # Supported versions: 5.4, 5.6, 7.0 (not all packages included yet).
     # Defaults to 5.6
+    #
+    # Custom location for Solr config files.
+    # Note that the toolset finds 'search_api_solr/solr-conf/4.x' automatically.
+    # Only use this if you use some other module, or schema files of your own.
+    # SOLR_CONF_OVERRIDES='sites/all/modules/contrib/search_api_solr/solr-conf/4.x'
+    #
 </code></pre>
 
 <hr>
