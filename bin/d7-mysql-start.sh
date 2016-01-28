@@ -8,7 +8,7 @@ root_passwd=root
 name='docker.mysql'
 image='mysql:5.6.26'
 container_hostname='mysql-docker.dev'
-local_data_folder=${datastore}/mysql_data'
+local_data_folder=${datastore}/mysql_data
 
 # Create datafolder if it doesn't exist.
 [ ! -d ${local_data_folder} ] && mkdir -p ${local_data_folder}

@@ -60,6 +60,3 @@ if [ $OSX -eq 1 ]; then
   sudo tee /usr/local/bin/docker-machine-nfs > /dev/null && \
   sudo chmod +x /usr/local/bin/docker-machine-nfs
 fi
-
-# Update images if needed.
-d7-update-images y
