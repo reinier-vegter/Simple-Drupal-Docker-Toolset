@@ -65,6 +65,8 @@ RUN sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/cli/php.ini
 # Setup Apache.
 RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/sites-available/default
 RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/sites-available/default-ssl
+RUN sed -ri 's/MaxClients\s+[0-9]+/MaxClients 300/g' /etc/apache2/apache2.conf
+RUN sed -ri 's/MaxRequestsPerChild\s+[0-9]+/MaxRequestsPerChild 400/g' /etc/apache2/apache2.conf
 
 ## Add solr proxy to apache
 RUN echo "Listen 8983" >> /etc/apache2/ports.conf
