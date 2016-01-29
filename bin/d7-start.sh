@@ -84,6 +84,11 @@ done
 # Add Xdebug host ip.
 env_vars=${env_vars}" -e XDEBUG_CONFIG='remote_host=dockerhost'"
 
+# Attach mailsink.
+mailsink=${datastore_project}/mail
+[ ! -d "${mailsink}" ] && mkdir -p "${mailsink}"
+volume_opts=${volume_opts}' -v '"${mailsink}:/var/log/mail"
+
 # check drupal base image
 function check_drupal_image() {
   if [ "$(docker images | grep $image)" = "" ]; then
@@ -94,7 +99,7 @@ function check_drupal_image() {
 
 # Start / Attach solr container.
 d7-solr4-start
-link_opts=${link_opts}' --link '"$solr_container_name"
+link_opts=${link_opts}' --link '"$solr_container_name:solr"
 
 # cleanup if this container does exist but stopped.
 container_running=$(docker ps -a --filter "name=$d7_container_name" --filter "status=running" --format "{{.ID}}")
@@ -137,5 +142,6 @@ fi
 
 echo ""
 echo " :D7:  Access me on http://$container_hostname/ or $container_hostname (for ssh etc)."
-echo " :D7:  my ssh root passwd: 'root'"
+echo " :D7:  my ssh root passwd: 'root' (or just type d7-ssh)"
+echo " :D7:  Mailsink located at ${mailsink}"
 echo -e ${hostname_list_message}

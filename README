@@ -87,6 +87,9 @@ From: https://docs.docker.com/installation/mac/
                                               (Should be integer, or 'all')
                                             Starts 'docker logs --tail=[num] -f [container]'
         - d7-ssh [container (optional)]   : Open shell (bash) in container. Defaults to container in current webroot folder.
+        - d7-drush [drush arguments]      : This runs drush with supplied arguments, in the webroot, as web user.
+                                            You can alias this if you'd make this transparent on your system, by adding
+                                            alias drush="d7-drush"   to your .bashrc file (~/.bashrc).
         - d7-help                         : Show README
 
 

@@ -25,6 +25,7 @@ scripts=(
   'd7-proxy-stop.sh'
   'd7-ssh.sh'
   'd7-update-images.sh'
+  'd7-drush.sh'
 )
 
 me=$(whoami)

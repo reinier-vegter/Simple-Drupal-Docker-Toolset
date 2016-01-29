@@ -105,7 +105,11 @@ RUN update-rc.d memcached disable
 RUN composer global require drush/drush:7.*
 RUN composer global update
 
+# Set composer folder, so that non-privileged users (www-data) can use it's content.ADD
+RUN mv /root/.composer /opt/composer
+RUN ln -s /opt/composer /root/.composer
+
 # Unfortunately, adding the composer vendor dir to the PATH doesn't seem to work. So:
-RUN ln -s /root/.composer/vendor/bin/drush /usr/local/bin/drush
+RUN ln -s /opt/composer/vendor/bin/drush /usr/local/bin/drush
 
 EXPOSE 80 443 22 11211

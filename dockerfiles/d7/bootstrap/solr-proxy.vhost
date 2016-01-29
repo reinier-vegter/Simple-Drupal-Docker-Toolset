@@ -7,6 +7,6 @@
   CustomLog "/var/log/apache2/solr-proxy-access.log" combined
 
   ProxyPreserveHost On
-  ProxyPass / http://solr4-docker.dev:8983/
-  ProxyPassReverse / http://solr4-docker.dev:8983/
+  ProxyPass / http://solr:8983/
+  ProxyPassReverse / http://solr:8983/
 </VirtualHost>
