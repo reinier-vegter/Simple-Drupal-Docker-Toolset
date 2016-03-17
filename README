@@ -14,6 +14,7 @@ With this toolset, you can install docker and easily fire up eny existing Drupal
  - varnish out-of-the-box (See 'CUSTOM PROJECT CONFIGURATION')
  - memcache
  - custom mounts
+ - XHProf / XHGui
 
 
 ***
@@ -158,6 +159,9 @@ Example content of file:
         #
         # Enable memcache daemon
         # MEMCACHED_ENABLE=1
+        #
+        # Enable XHGui
+        # XHGUI_ENABLE=1
         #
         # Set PHP version to use
         # PHP_VERSION=5.4

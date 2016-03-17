@@ -13,6 +13,7 @@ custom_hostnames=""
 NO_DRUPAL_CHECK=0
 VARNISH_ENABLE=0
 MEMCACHED_ENABLE=0
+XHGUI_ENABLE=0
 PHP_VERSION=""
 
 # Check dependency containers etc.
@@ -59,6 +60,10 @@ fi
 # enable memcached ?
 if [ $MEMCACHED_ENABLE -eq 1 ]; then
   env_vars=${env_vars}" -e MEMCACHED_ENABLE=1"
+fi
+# enable xhgui ?
+if [ $XHGUI_ENABLE -eq 1 ]; then
+  env_vars=${env_vars}" -e XHGUI_ENABLE=1"
 fi
 
 # Add dockerhost to container, if it's running inside virtualbox.

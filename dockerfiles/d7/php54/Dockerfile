@@ -7,7 +7,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 # Dummy number to increase.
 # Makes sure apt cache is refreshed on a new container build.
 # Only needed if this package list is changed.
-RUN number=3
+RUN number=5
 RUN apt-get update
 RUN apt-get install -y \
 	vim \
@@ -29,14 +29,19 @@ RUN apt-get install -y \
 	net-tools \
 	memcached \
 	php5-memcache \
+	make \
 	php5-dev \
+	mongodb \
 	php5-xdebug \
 	mysql-client
 
 # install xhprof
 RUN pecl config-set preferred_state beta
 RUN pecl install xhprof
-RUN apt-get purge -y php5-dev
+
+# install xhgui
+RUN pecl install mongo
+RUN mkdir /var/www-xhgui && cd /var/www-xhgui && git clone https://github.com/perftools/xhgui.git ./ && php install.php
 
 # Varnish installation.
 RUN apt-get install -y apt-transport-https
@@ -49,6 +54,7 @@ RUN sed -i 's/^ulimit/#ulimit/g' /etc/init.d/varnish
 # Put varnish on port 80, instead of 6081
 RUN sed -i 's/DAEMON_OPTS="-a :6081/DAEMON_OPTS="-a :80/' /etc/default/varnish
 
+RUN apt-get purge -y php5-dev make
 # Cleanup apt cache.
 RUN apt-get clean
 # RUN apt-get autoremove

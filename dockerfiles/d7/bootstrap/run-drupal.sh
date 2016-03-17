@@ -31,6 +31,14 @@ fi
   if [ "$PHP_VERSION" = "7.0" ]; then
     rm /etc/apache2/sites-available/000-default.conf
     ln -s /bootstrap/php7.default.vhost /etc/apache2/sites-available/000-default.conf
+  else
+    if [ $XHGUI_ENABLE -eq 1 ]; then
+      rm /etc/apache2/sites-available/default
+      ln -s /bootstrap/php5.default.xhgui.vhost /etc/apache2/sites-available/default
+    else
+      rm /etc/apache2/sites-available/default
+      ln -s /bootstrap/php5.default.vhost /etc/apache2/sites-available/default
+    fi
   fi
 # ==
 
@@ -78,8 +86,25 @@ if [ $MEMCACHED_ENABLE -eq 1 ]; then
 fi
 # ==
 
+# ================== Enable xhgui ? ====================
+if [ $XHGUI_ENABLE -eq 1 ]; then
+  mkdir /tmp/xhprof
+  service mongodb start
+  cp /bootstrap/xhgui.config.php /var/www-xhgui/config/config.php
+  chmod -R 777 /var/www-xhgui/cache
+  ln -s /var/www-xhgui /var/www/xhgui
+else
+  rm -rf /var/www-xhgui
+fi
+# ==
+
+
 # =================== Enable SSL proxy =================
   ln -s /bootstrap/ssl.vhost /etc/apache2/sites-enabled/ssl-proxy
+# ==
+
+# =================== Set php timezone =================
+  echo "date.timezone = $(cat /etc/timezone)" >> /etc/php5/apache2/php.ini
 # ==
 
 service apache2 start
