@@ -156,6 +156,10 @@ Example content of file:
         #
         # Enable Varnish cache engine
         # VARNISH_ENABLE=1
+        # Note: This will run Varnish on port 80 (so Drupal can talk to varnish on 127.0.0.1:80)
+        # and Apache on port 90.
+        # Note: To purge a page, let Drupal call URL's on varnish with the PURGE-method (like GET, but
+        # make it PURGE...). The purge and expire modules are a very useful combination to do this.
         #
         # Enable memcache daemon
         # MEMCACHED_ENABLE=1
