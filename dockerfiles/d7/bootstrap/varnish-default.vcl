@@ -104,9 +104,6 @@ sub vcl_recv {
   }
 
   # Some generic cookie manipulation, useful for all templates that follow
-  # Remove the "has_js" cookie
-  set req.http.Cookie = regsuball(req.http.Cookie, "has_js=[^;]+(; )?", "");
-
   # Remove any Google Analytics based cookies
   set req.http.Cookie = regsuball(req.http.Cookie, "__utm.=[^;]+(; )?", "");
   set req.http.Cookie = regsuball(req.http.Cookie, "_ga=[^;]+(; )?", "");
@@ -124,8 +121,6 @@ sub vcl_recv {
   # Remove the AddThis cookies
   set req.http.Cookie = regsuball(req.http.Cookie, "__atuv.=[^;]+(; )?", "");
 
-  set req.http.Cookie = regsuball(req.http.Cookie, "cookie_accepted=[^;]+(; )?", "");
-
   # Remove SimpleSamlPHP cookie, if no Drupal session cookie is present.
   if (req.http.Cookie !~ "S{1,2}ESS[a-z0-9]+=" && req.url !~ "^/saml") {
     set req.http.Cookie = regsuball(req.http.Cookie, "SimpleSAML[^;]+(; )?", "");
@@ -139,25 +134,8 @@ sub vcl_recv {
     unset req.http.cookie;
   }
 
-  # Remove cookie_accepted cookie.
-  # set req.http.Cookie = regsuball(req.http.Cookie, "cookie_accepted=[^;]+(; )?", "");
-
-  #if (req.http.Cache-Control ~ "(?i)no-cache") {
-  # if (req.http.Cache-Control ~ "(?i)no-cache" && client.ip ~ editors) { # create the acl editors if you want to restrict the Ctrl-F5
-  # http://varnish.projects.linpro.no/wiki/VCLExampleEnableForceRefresh
-  # Ignore requests via proxy caches and badly behaved crawlers
-  # like msnbot that send no-cache with every request.
-  #  if (! (req.http.Via || req.http.User-Agent ~ "(?i)bot" || req.http.X-Purge)) {
-  #    #set req.hash_always_miss = true; # Doesn't seems to refresh the object in the cache
-  #    # return(purge); # Couple this with restart in vcl_purge and X-Purge header to avoid loops
-  #    ban("req.http.host == " + req.http.host +
-  #        " && req.url == " + req.url);
-
-  #    # Throw a synthetic page so the
-  #    # request won't go to the backend.
-  #    return(synth(200, "Ban added"));
-  #  }
-  #}
+  # Remove Drupal anonymous cookies.
+  set req.http.Cookie = regsuball(req.http.Cookie, "(cookie_accepted|has_js|Drupal.toolbar.collapsed|Drupal.tableDrag.showWeight)=[^;]+(; )?", "");
 
   # Large static files are delivered directly to the end-user without
   # waiting for Varnish to fully read the file first.
