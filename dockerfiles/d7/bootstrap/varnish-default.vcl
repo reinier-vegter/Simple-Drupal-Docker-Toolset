@@ -126,6 +126,9 @@ sub vcl_recv {
     set req.http.Cookie = regsuball(req.http.Cookie, "SimpleSAML[^;]+(; )?", "");
   }
 
+  # Remove Drupal anonymous cookies.
+  set req.http.Cookie = regsuball(req.http.Cookie, "(cookie_accepted|has_js|Drupal.toolbar.collapsed|Drupal.tableDrag.showWeight)=[^;]+(; )?", "");
+
   # Remove a ";" prefix in the cookie if present
   set req.http.Cookie = regsuball(req.http.Cookie, "^;\s*", "");
 
@@ -134,8 +137,21 @@ sub vcl_recv {
     unset req.http.cookie;
   }
 
-  # Remove Drupal anonymous cookies.
-  set req.http.Cookie = regsuball(req.http.Cookie, "(cookie_accepted|has_js|Drupal.toolbar.collapsed|Drupal.tableDrag.showWeight)=[^;]+(; )?", "");
+  # Normalize the Accept-Encoding header
+  # as per: http://varnish-cache.org/wiki/FAQ/Compression
+  if (req.http.Accept-Encoding) {
+    if (req.url ~ "\.(jpg|png|gif|gz|tgz|bz2|tbz|mp3|ogg)$") {
+      # No point in compressing these
+      unset req.http.Accept-Encoding;
+    }
+    elsif (req.http.Accept-Encoding ~ "gzip") {
+      set req.http.Accept-Encoding = "gzip";
+    }
+    else {
+      # Unknown or deflate algorithm
+      unset req.http.Accept-Encoding;
+    }
+  }
 
   # Large static files are delivered directly to the end-user without
   # waiting for Varnish to fully read the file first.
