@@ -112,7 +112,7 @@ if [ "$container_running" != "" ]; then
   echo "Container already running"
 else
   # cleanup if this container does exist but stopped.
-  container_exit=$(docker ps -a --filter "name=$d7_container_name" --filter "status!=running" --format "{{.ID}}")
+  container_exit=$(docker ps -a --filter "name=$d7_container_name" --filter "status=exited" --filter "status=dead" --filter "status=paused" --filter "status=created" --format "{{.ID}}")
   if [ "$container_exit" != "" ]; then
     for cont in ${container_exit[@]}; do
       docker rm ${cont}
