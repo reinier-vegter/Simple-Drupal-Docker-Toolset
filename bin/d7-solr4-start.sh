@@ -26,16 +26,26 @@ volume_opts=${volume_opts}" -v ${solr_store}:${container_data_folder}"
 
 # Search for solr config folder and attach,
 # unless a custom folder was provided.
+solr_conf=""
 if [ "$SOLR_CONF_OVERRIDES" != "" ]; then
-  volume_opts=${volume_opts}" -v '${SOLR_CONF_OVERRIDES}:/opt/custom_conf'"
+  solr_conf=${SOLR_CONF_OVERRIDES}
 else
   folder=$(find ./ -type d -name "search_api_solr" | head -n 1)
   if [ "$folder" != "" ]; then
-    conf="$folder/4.x"
+    conf="$folder/solr-conf/4.x"
     if [ -d "$conf" ]; then
-      volume_opts=${volume_opts}" -v '${folder}:/opt/custom_conf'"
+      solr_conf=${conf}
     fi
   fi
+fi
+if [ "${solr_conf}" != "" ]; then
+  # Get absolute path.
+  # Docker won't handle relative paths.
+  oldpwd=$(pwd)
+  cd "${solr_conf}" && solr_conf=$(pwd)
+  cd "${oldpwd}"
+  echo " :SOLR:  Using solr config files from ${solr_conf}"
+  volume_opts=${volume_opts}' -v '"${solr_conf}:/opt/custom_conf"
 fi
 
 # Set entrypoint (start command).
