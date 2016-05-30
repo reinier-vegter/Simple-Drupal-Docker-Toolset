@@ -2,7 +2,7 @@
 
 Visit at Github Pages: http://reinier-vegter.github.io/Simple-Drupal-Docker-Toolset/
 
-With this toolset, you can install docker and easily fire up eny existing Drupal (or php) webroot in 2 seconds.
+With this toolset, you can install docker and easily fire up any existing Drupal (or php) webroot in 2 seconds.
  - drupal 6,7,8 (or basically any PHP app by disabling the drupal check, NO_DRUPAL_CHECK=1)
  - SSL support
  - PHP 5.4, 5.6 (default), 7.0
@@ -29,7 +29,7 @@ Simple Drupal Docker Toolset is sponsored and supported by [Finalist B.V.](http:
 
 #### Get this toolset first
 Clone git repository somewehere in local folder, or download archive package, and unpack.
-  # git clone https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset.git ~/docker-drupal
+      git clone https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset.git ~/docker-drupal
 
 
 #### GNU/Linux distro:
