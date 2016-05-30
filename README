@@ -29,19 +29,21 @@ Simple Drupal Docker Toolset is sponsored and supported by [Finalist B.V.](http:
 
 #### Get this toolset first
 Clone git repository somewehere in local folder, or download archive package, and unpack.
-      git clone https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset.git ~/docker-drupal
+
+    git clone https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset.git ~/docker-drupal
+
 
 
 #### GNU/Linux distro:
  - Install docker:
-   curl -sSL https://get.docker.com/ | sh
- - Add yourself to docker group
-   sudo usermod -aG docker [YOUR USER]
+   - `curl -sSL https://get.docker.com/ | sh`
+ - Add yourself to docker group:
+   - `sudo usermod -aG docker [YOUR USER]`
  - Then, logout your system and login again
- - Run bin/install.sh to symlink all needed scripts to your bin folder.
- - Give write access to yourself on hosts file
-   sudo chown root:$(whoami) /etc/hosts
-   sudo chmod 664 /etc/hosts
+ - Run `bin/install.sh` to symlink all needed scripts to your bin folder.
+ - Give write access to yourself on hosts file:
+   - `sudo chown root:$(whoami) /etc/hosts`
+   - `sudo chmod 664 /etc/hosts`
 
 
 #### OSX
@@ -51,19 +53,18 @@ From: https://docs.docker.com/installation/mac/
 
 
 - On El Capitan ?  You need to execute this, see http://stackoverflow.com/questions/32659348/operation-not-permitted-when-on-root-el-capitan-rootless-disabled
-
-  csrutil disable
-  reboot
+  - `csrutil disable`
+  - `reboot`
 - Add your user to 'wheel' group (awesome people):
-  sudo dseditgroup -o edit -a $(whoami) -t user wheel
+  - `sudo dseditgroup -o edit -a $(whoami) -t user wheel`
 - Give wheel-group write access to hosts file:
-  sudo chmod 664 /etc/hosts
-- Run bin/install.sh to symlink all needed scripts to your bin folder.
+  - `sudo chmod 664 /etc/hosts`
+- Run `bin/install.sh` to symlink all needed scripts to your bin folder.
 
 
 ### UPDATE TOOLSET
   Do a git pull to fetch the latest master-branch for this toolset.
-  Then, run bin/install.sh again.
+  Then, run `bin/install.sh` again.
 
 
 ***
@@ -196,4 +197,5 @@ That's all...
 To use XDebug profiler, just add a 'profiler' folder in your project.
 It will generate cachegrind files that you can open with KCacheGrind or any other tool.
 See http://www.xdebug.org/docs/profiler
+
 
