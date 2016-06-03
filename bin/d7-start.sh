@@ -126,7 +126,7 @@ else
 
   cust_config_folder="${mydir}/../php"
   run="/bin/bash /bootstrap/run-drupal.sh"
-  CMD="docker run -d ${link_opts} ${hostname_opts} ${env_vars} --add-host ${container_hostname}:127.0.0.1 -v ${cust_config_folder}:/etc/php5/custom.conf.d ${volume_opts} --name ${d7_container_name} -v `pwd`:/var/www ${image} ${run}"
+  CMD="docker run -d ${link_opts} ${hostname_opts} ${env_vars} --add-host ${container_hostname}:127.0.0.1 -p 80 -v ${cust_config_folder}:/etc/php5/custom.conf.d ${volume_opts} --name ${d7_container_name} -v `pwd`:/var/www ${image} ${run}"
   echo ${CMD}
   ${CMD}
 fi
