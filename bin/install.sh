@@ -1,7 +1,8 @@
 #!/bin/bash
 
 
-binary_path='/bin'
+binary_path_linux='/bin'
+binary_path_osx='/usr/local/bin'
 script=$(readlink -n $0 || echo "$0")
 mydir=$(cd `dirname "$script"` && pwd -P)
 
@@ -43,11 +44,14 @@ read input
 
 oldpwd=$(pwd)
 
-# symlink to /bin folder.
+# symlink to the binary folder based on os.
 cd ${mydir}
 for file in ${scripts[@]}; do
 if [ -f "${mydir}/$file" ]; then
-   link_name="${binary_path}/${file%.*}"
+   link_name="${binary_path_linux}/${file%.*}"
+   if [ $OSX -eq 1 ]; then
+     link_name="${binary_path_osx}/${file%.*}"
+   fi
    [ -L "${link_name}" ] && rm "${link_name}"
    ln -s "${mydir}/$file" "${link_name}"
    echo " -> ${file%.*}"
