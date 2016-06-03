@@ -5,8 +5,8 @@
 
 which docker-machine > /dev/null
 if [ $? -ne 0 ]; then
-  sudo curl -L https://github.com/docker/machine/releases/download/v0.3.0/docker-machine_darwin-amd64 > /usr/local/bin/docker-machine
-  chmod +x /usr/local/bin/docker-machine
+  sudo su root -c "curl -L https://github.com/docker/machine/releases/download/v0.7.0/docker-machine-`uname -s`-`uname -m` >/usr/local/bin/docker-machine"
+  sudo su root -c "chmod +x /usr/local/bin/docker-machine"
 fi
 
 docker-machine -v
