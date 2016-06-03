@@ -26,6 +26,9 @@ if [[ "$(uname -a)" == *"Darwin"* ]]; then
   echo "Oh joy, you're using a mac"
   export OSX=1
 
+  # Docker machine folder to use.
+  export DOCKER_MACHINE_DIR=${mydir}/.docker_machine
+
   if [ "$1" != "no-docker-check" ]; then
     . ${scriptbase}/osx-wrap-start.sh
   fi

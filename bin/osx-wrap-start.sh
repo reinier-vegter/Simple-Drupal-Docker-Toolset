@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# Available vars:
+# - DOCKER_MACHINE_DIR
+
+which docker-machine > /dev/null
+if [ $? -ne 0 ]; then
+  sudo curl -L https://github.com/docker/machine/releases/download/v0.3.0/docker-machine_darwin-amd64 > /usr/local/bin/docker-machine
+  chmod +x /usr/local/bin/docker-machine
+fi
+
+docker-machine -v
+
+
 DOCKERVM=default
 env=$(docker-machine env $DOCKERVM)
 if [ $? -ne 0 ]; then
