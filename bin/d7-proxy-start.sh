@@ -7,7 +7,7 @@ mydir=$(cd `dirname "$script"` && pwd -P)
 
 . ${mydir}/common.sh
 
-image='jwilder/nginx-proxy'
+image='jwilder/nginx-proxy:0.2.0'
 
 # generate hostname.
 container_hostname="dev.proxy.local"
