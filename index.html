@@ -36,7 +36,7 @@
 
 <p>Visit at Github Pages: <a href="http://reinier-vegter.github.io/Simple-Drupal-Docker-Toolset/">http://reinier-vegter.github.io/Simple-Drupal-Docker-Toolset/</a></p>
 
-<p>With this toolset, you can install docker and easily fire up eny existing Drupal (or php) webroot in 2 seconds.</p>
+<p>With this toolset, you can install docker and easily fire up any existing Drupal (or php) webroot in 2 seconds.</p>
 
 <ul>
 <li>drupal 6,7,8 (or basically any PHP app by disabling the drupal check, NO_DRUPAL_CHECK=1)</li>
@@ -50,6 +50,7 @@
 <li>varnish out-of-the-box (See 'CUSTOM PROJECT CONFIGURATION')</li>
 <li>memcache</li>
 <li>custom mounts</li>
+<li>XHProf / XHGui</li>
 </ul>
 
 <hr>
@@ -67,22 +68,36 @@
 <h4>
 <a id="get-this-toolset-first" class="anchor" href="#get-this-toolset-first" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get this toolset first</h4>
 
-<p>Clone git repository somewehere in local folder, or download archive package, and unpack.
-  # git clone <a href="https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset.git">https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset.git</a> ~/docker-drupal</p>
+<p>Clone git repository somewehere in local folder, or download archive package, and unpack.</p>
+
+<pre><code>git clone https://github.com/reinier-vegter/Simple-Drupal-Docker-Toolset.git ~/docker-drupal
+</code></pre>
 
 <h4>
 <a id="gnulinux-distro" class="anchor" href="#gnulinux-distro" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>GNU/Linux distro:</h4>
 
 <ul>
 <li>Install docker:
-curl -sSL <a href="https://get.docker.com/">https://get.docker.com/</a> | sh</li>
-<li>Add yourself to docker group
-sudo usermod -aG docker [YOUR USER]</li>
+
+<ul>
+<li><code>curl -sSL https://get.docker.com/ | sh</code></li>
+</ul>
+</li>
+<li>Add yourself to docker group:
+
+<ul>
+<li><code>sudo usermod -aG docker [YOUR USER]</code></li>
+</ul>
+</li>
 <li>Then, logout your system and login again</li>
-<li>Run bin/install.sh to symlink all needed scripts to your bin folder.</li>
-<li>Give write access to yourself on hosts file
-sudo chown root:$(whoami) /etc/hosts
-sudo chmod 664 /etc/hosts</li>
+<li>Run <code>bin/install.sh</code> to symlink all needed scripts to your bin folder.</li>
+<li>Give write access to yourself on hosts file:
+
+<ul>
+<li><code>sudo chown root:$(whoami) /etc/hosts</code></li>
+<li><code>sudo chmod 664 /etc/hosts</code></li>
+</ul>
+</li>
 </ul>
 
 <h4>
@@ -97,24 +112,33 @@ sudo chmod 664 /etc/hosts</li>
 </ul>
 
 <ul>
-<li>
-<p>On El Capitan ?  You need to execute this, see <a href="http://stackoverflow.com/questions/32659348/operation-not-permitted-when-on-root-el-capitan-rootless-disabled">http://stackoverflow.com/questions/32659348/operation-not-permitted-when-on-root-el-capitan-rootless-disabled</a></p>
+<li>On El Capitan ?  You need to execute this, see <a href="http://stackoverflow.com/questions/32659348/operation-not-permitted-when-on-root-el-capitan-rootless-disabled">http://stackoverflow.com/questions/32659348/operation-not-permitted-when-on-root-el-capitan-rootless-disabled</a>
 
-<p>csrutil disable
-reboot</p>
+<ul>
+<li><code>csrutil disable</code></li>
+<li><code>reboot</code></li>
+</ul>
 </li>
 <li>Add your user to 'wheel' group (awesome people):
-sudo dseditgroup -o edit -a $(whoami) -t user wheel</li>
+
+<ul>
+<li><code>sudo dseditgroup -o edit -a $(whoami) -t user wheel</code></li>
+</ul>
+</li>
 <li>Give wheel-group write access to hosts file:
-sudo chmod 664 /etc/hosts</li>
-<li>Run bin/install.sh to symlink all needed scripts to your bin folder.</li>
+
+<ul>
+<li><code>sudo chmod 664 /etc/hosts</code></li>
+</ul>
+</li>
+<li>Run <code>bin/install.sh</code> to symlink all needed scripts to your bin folder.</li>
 </ul>
 
 <h3>
 <a id="update-toolset" class="anchor" href="#update-toolset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>UPDATE TOOLSET</h3>
 
 <p>Do a git pull to fetch the latest master-branch for this toolset.
-  Then, run bin/install.sh again.</p>
+  Then, run <code>bin/install.sh</code> again.</p>
 
 <hr>
 
@@ -220,6 +244,9 @@ Add file .d7-docker.conf to your project folder.</p>
     #
     # Enable memcache daemon
     # MEMCACHED_ENABLE=1
+    #
+    # Enable XHGui
+    # XHGUI_ENABLE=1
     #
     # Set PHP version to use
     # PHP_VERSION=5.4
