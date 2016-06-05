@@ -51,15 +51,12 @@ From: https://docs.docker.com/installation/mac/
  - Install toolbox from https://www.docker.com/toolbox
  - Open Docker Quickstart Terminal and close when finished
 
-
-- On El Capitan ?  You need to execute this, see http://stackoverflow.com/questions/32659348/operation-not-permitted-when-on-root-el-capitan-rootless-disabled
-  - `csrutil disable`
-  - `reboot`
-- Add your user to 'wheel' group (awesome people):
-  - `sudo dseditgroup -o edit -a $(whoami) -t user wheel`
-- Give wheel-group write access to hosts file:
-  - `sudo chmod 664 /etc/hosts`
-- Run `bin/install.sh` to symlink all needed scripts to your bin folder.
+- Add your user to 'wheel' group, in terminal:
+  - sudo dseditgroup -o edit -a $(whoami) -t user wheel
+- Give wheel-group write access to hosts file, in terminal:
+  - sudo chmod 664 /etc/hosts
+- Run the following command to symlink all needed scripts to your bin folder.
+  - sudo bin/install.sh
 
 
 ### UPDATE TOOLSET
@@ -197,5 +194,3 @@ That's all...
 To use XDebug profiler, just add a 'profiler' folder in your project.
 It will generate cachegrind files that you can open with KCacheGrind or any other tool.
 See http://www.xdebug.org/docs/profiler
-
-
