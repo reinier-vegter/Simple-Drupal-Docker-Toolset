@@ -109,29 +109,25 @@
 <li>Install toolbox from <a href="https://www.docker.com/toolbox">https://www.docker.com/toolbox</a>
 </li>
 <li>Open Docker Quickstart Terminal and close when finished</li>
-</ul>
-
-<ul>
-<li>On El Capitan ?  You need to execute this, see <a href="http://stackoverflow.com/questions/32659348/operation-not-permitted-when-on-root-el-capitan-rootless-disabled">http://stackoverflow.com/questions/32659348/operation-not-permitted-when-on-root-el-capitan-rootless-disabled</a>
-
-<ul>
-<li><code>csrutil disable</code></li>
-<li><code>reboot</code></li>
-</ul>
-</li>
-<li>Add your user to 'wheel' group (awesome people):
+<li>Open VirtualBox and assign more CPU's to the 'default' VM, as it will be quite slow by default (only 1 CPU)</li>
+<li>Add your user to 'wheel' group, in terminal (so the toolset can add hostname-entries to your hosts file):
 
 <ul>
 <li><code>sudo dseditgroup -o edit -a $(whoami) -t user wheel</code></li>
 </ul>
 </li>
-<li>Give wheel-group write access to hosts file:
+<li>Give wheel-group write access to hosts file, in terminal:
 
 <ul>
 <li><code>sudo chmod 664 /etc/hosts</code></li>
 </ul>
 </li>
-<li>Run <code>bin/install.sh</code> to symlink all needed scripts to your bin folder.</li>
+<li>Run the following command to symlink all needed scripts to your bin folder.
+
+<ul>
+<li><code>sudo bin/install.sh</code></li>
+</ul>
+</li>
 </ul>
 
 <h3>
