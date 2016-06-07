@@ -67,7 +67,7 @@ else
 fi
 
 ip=$(publicIp $solr_container_name)
-"${mydir}"/d7-add-host.sh ${ip} ${solr_container_hostname}
+"${mydir}"/d7-hosts-entry.sh add ${ip} ${solr_container_hostname}
 if [ $? -ne 0 ]; then
   solr_container_hostname=${ip}
 fi

@@ -40,7 +40,7 @@ else
 fi
 
 ip=$(publicIp $name)
-"${mydir}"/d7-add-host.sh ${ip} ${container_hostname}
+"${mydir}"/d7-hosts-entry.sh add ${ip} ${container_hostname}
 if [ $? -ne 0 ]; then
   container_hostname=${ip}
 fi

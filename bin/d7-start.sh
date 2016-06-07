@@ -134,13 +134,13 @@ fi
 hostname_list_message=""
 ip=$(publicIp $d7_container_name)
 # add host to hostsfile.
-"${mydir}"/d7-add-host.sh ${ip} ${container_hostname}
+"${mydir}"/d7-hosts-entry.sh add ${ip} ${container_hostname}
 if [ $? -ne 0 ]; then
   container_hostname=${ip}
 else
   # Add custom hostnames to hostsfile.
   for hostname in ${custom_hostnames[@]}; do
-    "${mydir}"/d7-add-host.sh ${ip} ${hostname}
+    "${mydir}"/d7-hosts-entry.sh add ${ip} ${hostname}
     hostname_list_message=${hostname_list_message}"\n Additional hostname: ${hostname}"
   done
 fi

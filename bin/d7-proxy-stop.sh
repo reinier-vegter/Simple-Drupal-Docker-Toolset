@@ -7,3 +7,6 @@ mydir=$(cd `dirname "$script"` && pwd -P)
 name='docker.open-proxy'
 docker stop -t 1 ${name}
 docker rm ${name}
+
+container_hostname="dev.proxy.local"
+"${mydir}"/d7-hosts-entry.sh remove ${container_hostname}

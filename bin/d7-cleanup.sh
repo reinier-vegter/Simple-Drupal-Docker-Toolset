@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "This will remove (disposable) stopped containers, where the name contains 'd7.'"
+echo "This will remove (disposable) stopped containers, where the name contains 'd7.', and remove hosts-file entries"
 echo "Proceed ? Press ctr-c to abort, or enter to proceed"
 read input
 
@@ -11,5 +11,7 @@ mydir=$(cd `dirname "$script"` && pwd -P)
 for container in $(docker ps -a --filter "name=d7." --filter "status=exited" --format "{{.ID}}"); do
   docker rm "$container"
 done
+
+"${mydir}"/d7-hosts-entry.sh cleanup
 
 echo "Done"
