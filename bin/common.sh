@@ -22,8 +22,8 @@ base=$(dirname "$scriptbase")
 # Set default env var 'OSX'.
 [ "$OSX" = "" ] && export OSX=0
 if [[ "$(uname -a)" == *"Darwin"* ]]; then
-  # OH NO, USING DORA LAPTOP!!
-  echo "Oh joy, you're using a mac"
+  
+  # Running when OS X is detected.
   export OSX=1
 
   if [ "$1" != "no-docker-check" ]; then

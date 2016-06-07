@@ -14,7 +14,7 @@ if [ -w ${hostsfile} ]; then
 else
   echo "============================================================================"
   echo "I cannot write your hostsfile, so cannot provide you with a nice hostname."
-  echo "Do"
+  echo "Please enter the following commands:"
 
   if [ $OSX -eq 1 ]; then
     echo "    sudo dseditgroup -o edit -a $(whoami) -t user wheel"
