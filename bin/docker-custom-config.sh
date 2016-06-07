@@ -21,6 +21,7 @@ CUST_LINK=""
 CUST_VOL=""
 CUST_DEPENDENCIES=""
 CUST_HOSTNAMES=""
+CUST_DNS=""
 
 if [ "$1" != "" ] && [ -f "$1" ]; then
   source "$1"
@@ -47,6 +48,13 @@ if [ "$CUST_HOSTNAMES" != "" ]; then
   for hostname in ${CUST_HOSTNAMES[@]}; do
     hostname_opts=${hostname_opts}' -h '"$hostname"
     custom_hostnames=${custom_hostnames}" $hostname"
+  done
+fi
+
+# Add custom dns entries.
+if [ "$CUST_DNS" != "" ]; then
+  for dns_entry in ${CUST_DNS[@]}; do
+    dns_entries=${dns_entries}' --add-host '"${dns_entry}"
   done
 fi
 

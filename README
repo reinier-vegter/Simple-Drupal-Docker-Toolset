@@ -13,7 +13,7 @@ With this toolset, you can install docker and easily fire up any existing Drupal
  - mailsink that collects al emails sent through sendmail (/tmp/d7-docker-mailsink on host)
  - varnish out-of-the-box (See 'CUSTOM PROJECT CONFIGURATION')
  - memcache
- - custom mounts
+ - custom mounts, dns entries, solr-config, local hostnames
  - XHProf / XHGui
 
 
@@ -146,6 +146,12 @@ Example content of file:
         # Give container extra hostnames.
         # CUST_HOSTNAMES=(
         #   "dev.my-favorite-hostname.com"
+        # )
+        #
+        # Provide DNS (hosts-file) entries to container, so container can resolve it.
+        # For example usefull if you're having trouble to get docker to communicate through host-system VPN.
+        # CUST_DNS=(
+        #    www.google-dns.com:8.8.4.4
         # )
         #
         # Do not check if this is actually Drupal. Usable for 'other' php apps to be ran in
