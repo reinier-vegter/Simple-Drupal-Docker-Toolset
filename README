@@ -48,10 +48,10 @@ Clone git repository somewehere in local folder, or download archive package, an
 
 #### OSX
 From: https://docs.docker.com/installation/mac/
- - Install toolbox from https://www.docker.com/toolbox
- - Open Docker Quickstart Terminal and close when finished
-
-- Add your user to 'wheel' group, in terminal:
+- Install toolbox from https://www.docker.com/toolbox
+- Open Docker Quickstart Terminal and close when finished
+- Open VirtualBox and assign more CPU's to the 'default' VM, as it will be quite slow by default (only 1 CPU)
+- Add your user to 'wheel' group, in terminal (so the toolset can add hostname-entries to your hosts file):
   - sudo dseditgroup -o edit -a $(whoami) -t user wheel
 - Give wheel-group write access to hosts file, in terminal:
   - sudo chmod 664 /etc/hosts
