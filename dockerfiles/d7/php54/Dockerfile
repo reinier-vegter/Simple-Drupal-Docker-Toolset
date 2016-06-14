@@ -107,8 +107,9 @@ RUN sed -i 's/-l 127.0.0.1/-l 0.0.0.0/' /etc/memcached.conf
 # Disable memcached by default.
 RUN update-rc.d memcached disable
 
-# Install Drush 7.
+# Install Drush 7, firephp.
 RUN composer global require drush/drush:7.*
+RUN composer global require firephp/firephp-core
 RUN composer global update
 
 # Set composer folder, so that non-privileged users (www-data) can use it's content.ADD
