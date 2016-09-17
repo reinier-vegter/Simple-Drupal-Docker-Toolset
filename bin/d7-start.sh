@@ -49,7 +49,7 @@ env_vars=${env_vars}" -e PHP_VERSION="${PHP_VERSION}
 # check if this is drupal.
 if [ $NO_DRUPAL_CHECK -ne 1 ]; then
   [ ! -f index.php ] && noDrupal
-  [ ! -f includes/bootstrap.inc ] && noDrupal
+  [ ! -f includes/bootstrap.inc ] && [ ! -f core/includes/bootstrap.inc ] && noDrupal
 else
   echo "Not checking if this is actually a Drupal webroot!"
 fi

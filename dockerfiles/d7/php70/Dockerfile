@@ -4,6 +4,10 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Install system tools.
+# Dummy number to increase.
+# Makes sure apt cache is refreshed on a new container build.
+# Only needed if this package list is changed.
+RUN number=5
 RUN apt-get update
 RUN apt-get install -y \
 	vim \
@@ -22,20 +26,24 @@ RUN apt-get install -y \
 	apache2 \
   php7.0-cli \
   php7.0-mysql \
+  php7.0-mongodb \
+  php7.0-mbstring \
   php7.0-gd \
   php7.0-curl \
   php7.0-ldap \
   php7.0-mcrypt \
   php7.0-json \
-  # 	php-soap \
+  php7.0-soap \
   php7.0-intl \
+  php7.0-memcached \
+  php7.0-redis \
+  php7.0-dev \
+  php7.0-xdebug \
   libapache2-mod-php7.0 \
-    curl \
-    openssh-server \
-    net-tools \
-    memcached \
-  #	php5-memcache \
-  php7.0-dev
+  curl \
+  openssh-server \
+  net-tools \
+  memcached
 
 # install xhprof
 #RUN pecl config-set preferred_state beta
