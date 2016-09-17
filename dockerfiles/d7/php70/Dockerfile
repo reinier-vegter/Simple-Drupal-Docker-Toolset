@@ -21,6 +21,11 @@ RUN apt-get install -y \
 RUN echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.list
 RUN echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.list
 RUN wget http://www.dotdeb.org/dotdeb.gpg -O - |apt-key add -
+
+# Dummy number to increase.
+# Makes sure apt cache is refreshed on a new container build.
+# Only needed if this package list is changed.
+RUN number=5
 RUN apt-get update
 RUN apt-get install -y \
 	apache2 \
@@ -43,7 +48,8 @@ RUN apt-get install -y \
   curl \
   openssh-server \
   net-tools \
-  memcached
+  memcached \
+  mysql-client
 
 # install xhprof
 #RUN pecl config-set preferred_state beta
