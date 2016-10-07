@@ -176,6 +176,10 @@ Example content of file:
         # Supported versions: 5.4, 5.6, 7.0.
         # Defaults to 5.6
         #
+        # Custom per-project php.ini
+        # CUST_PHP_INI="/opt/web/flightcontrol/php.ini"
+        # Make sure to use an absolute path here!
+        #
         # Custom location for Solr config files.
         # Note that the toolset finds 'search_api_solr/solr-conf/4.x' automatically.
         # Only use this if you use some other module, or schema files of your own.

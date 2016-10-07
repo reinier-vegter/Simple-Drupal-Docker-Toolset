@@ -22,6 +22,7 @@ CUST_VOL=""
 CUST_DEPENDENCIES=""
 CUST_HOSTNAMES=""
 CUST_DNS=""
+CUST_PHP_INI=""
 
 if [ "$1" != "" ] && [ -f "$1" ]; then
   source "$1"
@@ -56,6 +57,11 @@ if [ "$CUST_DNS" != "" ]; then
   for dns_entry in ${CUST_DNS[@]}; do
     dns_entries=${dns_entries}' --add-host '"${dns_entry}"
   done
+fi
+
+# Add custom php.ini.
+if [ "$CUST_PHP_INI" != "" ]; then
+  custom_php_ini="${CUST_PHP_INI}"
 fi
 
 # read custom docker dependencies.

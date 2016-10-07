@@ -11,6 +11,7 @@ link_opts=""
 hostname_opts=""
 custom_hostnames=""
 dns_entries=""
+custom_php_ini=""
 NO_DRUPAL_CHECK=0
 VARNISH_ENABLE=0
 MEMCACHED_ENABLE=0
@@ -95,7 +96,15 @@ mailsink=${datastore_project}/mail
 [ ! -d "${mailsink}" ] && mkdir -p "${mailsink}"
 volume_opts=${volume_opts}' -v '"${mailsink}:/var/log/mail"
 
-# check drupal base image
+# Add custom php.ini file.
+if [ "${custom_php_ini}" != "" ] && [ -f "${custom_php_ini}" ]; then
+  [ ! -d ${datastore_project}/php_local_config ] && mkdir -p ${datastore_project}/php_local_config
+  [ -f ${datastore_project}/php_local_config/local.ini ] && rm ${datastore_project}/php_local_config/local.ini
+  cp "${custom_php_ini}" ${datastore_project}/php_local_config/local.ini
+  volume_opts=${volume_opts}' -v '"${datastore_project}/php_local_config:/etc/php5/local.conf.d"
+fi
+
+# Check drupal base image
 function check_drupal_image() {
   if [ "$(docker images | grep $image)" = "" ]; then
     # build image first.
