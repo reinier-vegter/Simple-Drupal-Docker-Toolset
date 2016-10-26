@@ -25,7 +25,7 @@ RUN wget http://www.dotdeb.org/dotdeb.gpg -O - |apt-key add -
 # Dummy number to increase.
 # Makes sure apt cache is refreshed on a new container build.
 # Only needed if this package list is changed.
-RUN number=5
+RUN number=6
 RUN apt-get update
 RUN apt-get install -y \
 	apache2 \
@@ -44,6 +44,7 @@ RUN apt-get install -y \
   php7.0-redis \
   php7.0-dev \
   php7.0-xdebug \
+  php7.0-xml \
   libapache2-mod-php7.0 \
   curl \
   openssh-server \
