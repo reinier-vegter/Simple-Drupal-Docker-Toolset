@@ -286,6 +286,19 @@ To use it with php-storm</p>
 <p>To use XDebug profiler, just add a 'profiler' folder in your project.
 It will generate cachegrind files that you can open with KCacheGrind or any other tool.
 See <a href="http://www.xdebug.org/docs/profiler">http://www.xdebug.org/docs/profiler</a></p>
+
+<h3>
+<a id="override-mysql-configuration" class="anchor" href="#override-mysql-configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Override MySQL configuration.</h3>
+
+<p>Put your (extra) configuration in <code>~/.drupal_docker_toolset/mysql.cnf</code> and restart mysql
+by executing <code>d7-mysql-stop &amp;&amp; d7-mysql-start</code>.</p>
+
+<p>Example content:</p>
+
+<pre><code>  [mysqld]
+  table_open_cache = 2000
+  innodb_buffer_pool_size = 3G
+</code></pre>
       </section>
     </div>
 
