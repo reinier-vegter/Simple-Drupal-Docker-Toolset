@@ -210,6 +210,7 @@ Put your (extra) configuration in `~/.drupal_docker_toolset/mysql.cnf` and resta
 by executing `d7-mysql-stop && d7-mysql-start`.
 
 Example content:
+
       [mysqld]
       table_open_cache = 2000
       innodb_buffer_pool_size = 3G
