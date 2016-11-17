@@ -6,6 +6,8 @@
 # - ${d7_container_name}      : Drupal container name based on folder etc.
 # - ${OSX}                    : 1 if this is an OSX machine, 0 otherwise.
 # - ${proxy_container_name}   : Name of proxy container.
+# - ${datastore}              : Global datastore (from your homefolder): ~/.drupal_docker_toolset .
+# - ${datastore_project}      : Project-local datastore (for solr data etc.).
 #
 # Available functions:
 # - publicIp              : Get container IP, or VBox ip (if using OSX).
@@ -22,7 +24,7 @@ base=$(dirname "$scriptbase")
 # Set default env var 'OSX'.
 [ "$OSX" = "" ] && export OSX=0
 if [[ "$(uname -a)" == *"Darwin"* ]]; then
-  
+
   # Running when OS X is detected.
   export OSX=1
 

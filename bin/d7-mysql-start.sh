@@ -22,10 +22,6 @@ else
   if [ "$container_stopped" != "" ]; then
     docker start "$container_stopped"
   else
-
-    # Add config file.
-    cust_config_folder="${mydir}/../mysql"
-
     # Expose port on machine, if 'this' is a vbox machine.
     exposed_port_opts=""
     if [ "$D7_VBOX_IP" != "" ]; then
@@ -33,7 +29,7 @@ else
     fi
     bootstrap="${mydir}/../dockerfiles/mysql/bootstrap"
     cmd="/bootstrap/start-mysql.sh"
-    run="docker run --name $name --entrypoint ${cmd} -v ${local_data_folder}:/var/lib/mysql -v ${bootstrap}:/bootstrap -v ${cust_config_folder}:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=$root_passwd ${exposed_port_opts} -d $image"
+    run="docker run --name $name --entrypoint ${cmd} -v ${local_data_folder}:/var/lib/mysql -v ${bootstrap}:/bootstrap -v ${datastore}:/opt/global_datastore -e MYSQL_ROOT_PASSWORD=$root_passwd ${exposed_port_opts} -d $image"
     echo ${run}
     ${run}
   fi

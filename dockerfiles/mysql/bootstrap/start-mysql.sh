@@ -9,6 +9,19 @@ TARGET_GID=$(stat -c "%g" /var/lib/mysql)
 echo '-- Setting mysql group to use gid '$TARGET_GID
 groupmod -o -g $TARGET_GID mysql || true
 echo
+
+# Prepare config folder.
+[ !-d /etc/mysql/conf.d ] && mkdir /etc/mysql/conf.d
+
+# Mysql base config.
+ln -s /bootstrap/custom-config.cnf /etc/mysql/conf.d/base_config.cnf
+
+# Custom config.
+if [ -f /opt/global_datastore/mysql.cnf ]; then
+  echo "Custom mysql config found. Creating symlink."
+  ln -s /opt/global_datastore/mysql.cnf /etc/mysql/conf.d/zlocal_config.cnf
+fi
+
 echo '* Starting MySQL'
 chown -R mysql:root /var/run/mysqld/
 /entrypoint.sh mysqld --user=mysql --console
