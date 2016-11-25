@@ -3,7 +3,19 @@
 
   RewriteEngine On
 
-  php_admin_value auto_prepend_file "/var/www/xhgui/external/header.php"
+  Alias "/xhgui" "/var/www-xhgui/webroot"
+  <Location /xhgui>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [QSA,L]
+  </Location>
+
+  <Directory /var/www-xhgui/>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride All
+    Order allow,deny
+    allow from all
+  </Directory>
 
 	DocumentRoot /var/www
 	<Directory />

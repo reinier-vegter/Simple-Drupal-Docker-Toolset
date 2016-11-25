@@ -12,10 +12,18 @@ RUN apt-get dist-upgrade -y
 ## install xhprof
 RUN apt-get install -y php5-dev make
 RUN pecl config-set preferred_state beta
+RUN pecl uninstall mongodb
+RUN pecl install mongodb
 RUN pecl uninstall xhprof
 RUN pecl install xhprof
-RUN pecl uninstall mongo
-RUN pecl install mongo
+RUN echo "extension=xhprof.so" > /etc/php5/apache2/conf.d/xhprof.ini
+RUN echo "extension=xhprof.so" > /etc/php5/cli/conf.d/xhprof.ini
+RUN echo "extension=mongodb.so" > /etc/php5/apache2/conf.d/mongodb.ini
+RUN echo "extension=mongodb.so" > /etc/php5/cli/conf.d/mongodb.ini
+# install xhgui
+RUN [ -d /var/www-xhgui ] && rm -rf /var/www-xhgui
+RUN mkdir /var/www-xhgui && cd /var/www-xhgui && git clone --quiet https://github.com/perftools/xhgui.git ./
+RUN cd /var/www-xhgui && php install.php
 
 # Cleanup
 RUN apt-get purge -y php5-dev make

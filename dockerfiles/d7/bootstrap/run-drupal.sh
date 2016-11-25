@@ -99,8 +99,13 @@ if [ $XHGUI_ENABLE -eq 1 ]; then
   mkdir /tmp/xhprof
   service mongodb start
   cp /bootstrap/xhgui.config.php /var/www-xhgui/config/config.php
-  chmod -R 777 /var/www-xhgui/cache
-  ln -s /var/www-xhgui /var/www/xhgui
+  chown -R $DOCKERUSER:$DOCKERUSER /var/www-xhgui
+
+  # Add xhprof php config.
+  if [ -d /etc/php5 ]; then
+    ln -s /etc/php5/custom.conf.d/xhgui.ini /etc/php5/cli/conf.d/
+    ln -s /etc/php5/custom.conf.d/xhgui.ini /etc/php5/apache2/conf.d/
+  fi
 else
   rm -rf /var/www-xhgui
 fi

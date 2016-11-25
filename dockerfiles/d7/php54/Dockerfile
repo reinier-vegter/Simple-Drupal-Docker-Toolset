@@ -7,7 +7,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 # Dummy number to increase.
 # Makes sure apt cache is refreshed on a new container build.
 # Only needed if this package list is changed.
-RUN number=5
+RUN number=6
 RUN apt-get update
 RUN apt-get install -y \
 	vim \
@@ -33,15 +33,13 @@ RUN apt-get install -y \
 	php5-dev \
 	mongodb \
 	php5-xdebug \
-	mysql-client
+	mysql-client \
+	libpcre3-dev pkg-config libssl-dev libsslcommon2-dev # for xhgui / xhprof
 
 # install xhprof
 RUN pecl config-set preferred_state beta
+RUN pecl install mongodb
 RUN pecl install xhprof
-
-# install xhgui
-RUN pecl install mongo
-RUN mkdir /var/www-xhgui && cd /var/www-xhgui && git clone https://github.com/perftools/xhgui.git ./ && php install.php
 
 # Varnish installation.
 RUN apt-get install -y apt-transport-https
@@ -100,7 +98,6 @@ RUN mkdir /var/run/sshd
 ## RUN echo -e '[program:mysql]\ncommand=/usr/bin/pidproxy /var/run/mysqld/mysqld.pid /usr/sbin/mysqld\nautorestart=true\n\n' >> /etc/supervisor/supervisord.conf
 ## RUN echo -e '[program:sshd]\ncommand=/usr/sbin/sshd -D\n\n' >> /etc/supervisor/supervisord.conf
 ## RUN echo -e '[program:blackfire]\ncommand=/usr/local/bin/launch-blackfire\n\n' >> /etc/supervisor/supervisord.conf
-
 
 # Let memcached listen on any IP, so it's connectable from outside the container.
 RUN sed -i 's/-l 127.0.0.1/-l 0.0.0.0/' /etc/memcached.conf

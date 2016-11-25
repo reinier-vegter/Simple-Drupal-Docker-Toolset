@@ -168,8 +168,10 @@ Example content of file:
         # Enable memcache daemon
         # MEMCACHED_ENABLE=1
         #
-        # Enable XHGui
+        # Enable XHGui (Currently only for php 5.6).
         # XHGUI_ENABLE=1
+        # Visit xhgui at /xhgui .
+        # Note that it takes some time to start mongodb.
         #
         # Set PHP version to use
         # PHP_VERSION=5.4
