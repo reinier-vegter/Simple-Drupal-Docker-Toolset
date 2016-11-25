@@ -31,7 +31,7 @@ return array(
   // Profile 1 in 100 requests.
   // You can return true to profile every request.
   'profiler.enable' => function() {
-    if (strpos($_SERVER['REQUEST_URI'], '/xhgui') !== 0) {
+    if (!isset($_SERVER['REQUEST_URI']) || strpos($_SERVER['REQUEST_URI'], '/xhgui') !== 0) {
 //    return rand(1, 100) === 42;
       return TRUE;
     }
